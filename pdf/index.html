@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cofre PDF | Ana Marta Soares</title>
+  <meta name="description" content="Anonimização e pseudonimização local de PDF jurídicos. Ana Marta Soares, Especialista em IA aplicada ao Direito.">
+  <meta name="theme-color" content="#1e1a18">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icones/icone-192.png">
+  <link rel="apple-touch-icon" href="icones/icone-192.png">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="bar">
+    <div class="brand">
+      <img src="icones/icone-192.png" alt="">
+      <div><h1>Cofre PDF</h1><p>Anonimização local de documentos PDF</p></div>
+    </div>
+    <div class="file" id="fileName"></div>
+    <div class="actions">
+      <button class="btn" id="btnInstall" hidden>Instalar no computador</button>
+      <label class="btn dark" for="fileInput">Abrir PDF</label>
+      <input id="fileInput" type="file" accept="application/pdf,.pdf" hidden>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main id="viewer">
+      <div id="empty" class="empty">
+        <div class="drop" id="drop">
+          <h2>Abra um PDF</h2>
+          <p>Arraste o ficheiro para aqui ou seleccione <b>Abrir PDF</b>. O documento é tratado neste computador e não é enviado para qualquer servidor.</p>
+          <label class="btn dark big" for="fileInput">Abrir PDF</label>
+        </div>
+        <div class="howto">
+          <h3>Abrir os PDF directamente no Cofre</h3>
+          <ol>
+            <li>Nesta página, no Google Chrome, no Microsoft Edge ou no Brave, seleccione <b>Instalar no computador</b> (ou o ícone de instalação na barra de endereço).</li>
+            <li>No Mac, clique com o botão direito num PDF e seleccione <b>Abrir com &gt; Cofre PDF</b>. No Windows, clique com o botão direito e seleccione <b>Abrir com &gt; Cofre PDF</b>.</li>
+            <li>Na primeira vez, autorize o Cofre a abrir o ficheiro. A partir daí, o PDF abre já pronto a anonimizar.</li>
+          </ol>
+        </div>
+      </div>
+      <div id="pages" hidden></div>
+    </main>
+
+    <aside id="side">
+      <section id="licGate" class="card" hidden>
+        <h2>Activação da licença</h2>
+        <p class="muted">Cole o código de licença que recebeu. A activação é feita uma única vez em cada computador.</p>
+        <textarea id="licCode" rows="4" placeholder="COFRE-..." spellcheck="false"></textarea>
+        <button class="btn dark block" id="btnActivate">Activar</button>
+        <div id="licStatus" class="status"></div>
+        <p class="note">Ainda não tem licença? Contacte <a href="https://www.linkedin.com/in/marta-soares-direito-ia" target="_blank" rel="noopener">Ana Marta Soares através do LinkedIn</a>.</p>
+      </section>
+
+      <section id="work" hidden>
+        <div class="card" id="summaryCard">
+          <h2>Elementos identificados</h2>
+          <p class="muted" id="summary">Abra um PDF para começar.</p>
+          <div class="toolbar" id="listTools" hidden>
+            <button class="link" id="btnAll">Seleccionar todos</button>
+            <button class="link" id="btnNone">Desmarcar todos</button>
+          </div>
+          <div id="entityList"></div>
+          <label class="lbl" for="manualTerm">Acrescentar um termo</label>
+          <div class="row"><input id="manualTerm" type="text" placeholder="Nome, alcunha ou outro termo"><button class="btn" id="btnAddTerm">Acrescentar</button></div>
+          <p class="muted small">Para rasurar uma assinatura, um carimbo ou uma imagem, arraste o rato sobre a zona no documento. Para retirar uma caixa manual, clique nela.</p>
+        </div>
+
+        <div class="card">
+          <h2>Resultado</h2>
+          <fieldset>
+            <label class="radio"><input type="radio" name="mode" value="redact" checked><span><b>Rasura</b>: os dados ficam cobertos por caixas pretas.</span></label>
+            <label class="radio"><input type="radio" name="mode" value="label"><span><b>Etiquetas</b>: os dados são cobertos por etiquetas, como [PESSOA_1].</span></label>
+          </fieldset>
+          <button class="btn dark block" id="btnPdf" disabled>Descarregar o PDF anonimizado</button>
+          <button class="btn block" id="btnText" disabled>Descarregar o texto pseudonimizado (.docx)</button>
+          <button class="btn block" id="btnTable" disabled>Descarregar a tabela de correspondências (.docx)</button>
+          <div id="outStatus" class="status"></div>
+          <p class="muted small">O PDF anonimizado é gerado como imagem de cada página, pelo que os dados rasurados deixam de existir no ficheiro e não podem ser recuperados por cópia ou pesquisa. O texto pseudonimizado destina-se a ser trabalhado em sistemas de inteligência artificial; a tabela permite repor os dados com o Cofre para Word.</p>
+        </div>
+
+        <div class="card small">
+          <p class="muted" id="licInfo"></p>
+          <button class="link" id="btnDeactivate">Remover a licença deste computador</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="mark">Ana Marta Soares, Especialista em IA aplicada ao Direito · <a href="../privacidade.html">Privacidade</a> · <a href="../termos.html">Termos</a></footer>
+
+  <script src="../nacl-fast.min.js"></script>
+  <script src="../licenca.js"></script>
+  <script src="../engine.js"></script>
+  <script src="../docxutil.js"></script>
+  <script src="lib/pdf-lib.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

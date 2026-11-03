@@ -34,6 +34,7 @@
   function checkCode(code) {
     var v = window.Licenca ? window.Licenca.verify(code) : { ok: false, motivo: 'Não foi possível verificar a licença.' };
     if (!v.ok) return Promise.resolve(v);
+    if (window.Licenca.allows && !window.Licenca.allows('word', v.tipo)) return Promise.resolve({ ok: false, motivo: 'Este código é de outro produto (Cofre PDF) e não activa o suplemento do Word.' });
     return revokedList().then(function (list) {
       if (list.indexOf(v.num) >= 0) { v.ok = false; v.motivo = 'Esta licença foi desactivada. Contacte Ana Marta Soares.'; }
       return v;
