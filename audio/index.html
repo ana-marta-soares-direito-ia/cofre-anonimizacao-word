@@ -12,12 +12,8 @@
   <link rel="stylesheet" href="../pdf/app.css">
   <link rel="stylesheet" href="app.css">
   <script>
-    // isolamento de origem: permite usar todos os núcleos do processador na transcrição
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').then(function () { return navigator.serviceWorker.ready; }).then(function () {
-        if (!window.crossOriginIsolated && !sessionStorage.getItem('coi')) { sessionStorage.setItem('coi', '1'); location.reload(); }
-      }).catch(function () {});
-    }
+    // isolamento de origem: permite usar todos os núcleos do processador a partir da abertura seguinte
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});
   </script>
 </head>
 <body>
@@ -45,10 +41,10 @@
         <div class="howto">
           <h3>Antes de começar</h3>
           <ol>
-            <li>Utilize o Google Chrome, o Microsoft Edge ou o Brave, num computador com ligação à corrente.</li>
+            <li>Utilize um browser actualizado, num computador ligado à corrente.</li>
             <li>Na primeira utilização, o Cofre descarrega o modelo de transcrição (entre 250 MB e 1 GB, consoante a qualidade escolhida). Fica guardado no computador e não volta a ser descarregado.</li>
             <li>Durante a transcrição, mantenha esta janela aberta. Pode continuar a trabalhar noutras aplicações.</li>
-            <li>Para abrir as gravações directamente no Cofre, seleccione <b>Instalar no computador</b> e, depois, clique com o botão direito no ficheiro e escolha <b>Abrir com &gt; Cofre Transcrição</b>.</li>
+            <li>Para abrir as gravações directamente no Cofre, instale a aplicação e, depois, clique com o botão direito no ficheiro e escolha <b>Abrir com &gt; Cofre Transcrição</b>.</li>
           </ol>
         </div>
       </div>
