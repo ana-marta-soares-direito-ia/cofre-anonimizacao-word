@@ -332,6 +332,12 @@
     if (!toks.length) return;
     function gap(i) { return text.slice(toks[i].e, toks[i + 1].s); }
     function spaceGap(i) { return /^[  ]+$/.test(gap(i)); }
+    // mudança de linha dentro do mesmo bloco (PDF): só continua o nome se a palavra seguinte for nome próprio ou apelido
+    function lineGap(i) {
+      if (!/^[ \u00a0]*\n[ \u00a0]*$/.test(gap(i)) || i + 1 >= toks.length) return false;
+      var nx = norm(toks[i + 1].t);
+      return (FIRST.has(nx) || SURN.has(nx)) && !BLOCK.has(nx) && !MONTHS.has(nx);
+    }
     function isInitial(i) {
       var t = toks[i].t;
       return t.length === 1 && new RegExp('^[' + UC + ']$').test(t) && i + 1 < toks.length && /^\.[  ]+$/.test(gap(i));
@@ -343,7 +349,7 @@
       if (!capLike(i)) { i++; continue; }
       var j = i, last = i;
       while (j + 1 < toks.length) {
-        var ok = spaceGap(j) || (isInitial(j));
+        var ok = spaceGap(j) || isInitial(j) || lineGap(j);
         if (!ok) break;
         if (capLike(j + 1)) { j++; last = j; continue; }
         var nt = toks[j + 1].t;
@@ -380,14 +386,17 @@
       while (b >= a && (ROLES.has(norm(toks[b].t)) || CONN.has(norm(toks[b].t)))) b--;
       if (a > b) return;
       var first = norm(toks[a].t);
-      if (BLOCK.has(first)) return;
+      if (BLOCK.has(first) || MONTHS.has(first)) { if (a < b) evaluateRun(a + 1, b); return; }
       var content = [], initials = 0;
       for (var k = a; k <= b; k++) {
         var nk = norm(toks[k].t);
         if (CONN.has(nk) && !isCapTok(toks[k].t)) continue;
         if (CONN.has(nk) && isUpperTok(toks[k].t) && k !== a && k !== b) continue;
         if (isInitial(k)) { initials++; continue; }
-        if (BLOCK.has(nk) || MONTHS.has(nk)) return;
+        // palavra que não pode integrar um nome (topónimo, mês, via): avalia separadamente o que está antes e depois
+        if (BLOCK.has(nk) || MONTHS.has(nk)) { evaluateRun(a, k - 1); if (k < b) evaluateRun(k + 1, b); return; }
+        // título a meio ("... Soares Exmo. Senhor Juiz"): fecha o nome anterior e recomeça no título
+        if (k > a && TITLES.has(nk)) { evaluateRun(a, k - 1); evaluateRun(k, b); return; }
         content.push(nk);
       }
       if (!content.length) return;
@@ -428,7 +437,8 @@
   function detectParagraph(text) {
     var out = [];
     if (!text || !text.trim()) return out;
-    detectPatterns(text, out);
+    // os padrões lêem as mudanças de linha como espaços (mesmo comprimento, mesmas posições)
+    detectPatterns(text.replace(/\n/g, ' '), out);
     detectPersons(text, out);
     return resolve(out);
   }
@@ -505,7 +515,7 @@
       en.units.set(pre + m.text, { prefix: pre, text: m.text });
     }
 
-    entities.forEach(function (en) { en.canonical = canonicalOf(en); });
+    entities.forEach(function (en) { en.canonical = canonicalOf(en).replace(/\s+/g, ' '); });
     entities.sort(function (a, b) {
       var ta = TYPE_ORDER.indexOf(a.type), tb = TYPE_ORDER.indexOf(b.type);
       if (ta !== tb) return ta - tb;
@@ -625,7 +635,9 @@
 
   /** Simula, sobre texto simples, a pesquisa e substituição feita no Word. */
   function wordSearch(text, needle, matchCase, wholeWord) {
-    var res = [], h = matchCase ? text : text.toLowerCase(), n = matchCase ? needle : needle.toLowerCase();
+    // a mudança de linha e o espaço inquebrável valem como espaço (mesmo comprimento, mesmas posições)
+    var sp = function (x) { return x.replace(/[\n\u00a0]/g, ' '); };
+    var res = [], h = sp(matchCase ? text : text.toLowerCase()), n = sp(matchCase ? needle : needle.toLowerCase());
     var isW = new RegExp('[' + LET + '0-9_]');
     var i = 0;
     while ((i = h.indexOf(n, i)) >= 0) {

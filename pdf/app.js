@@ -96,6 +96,31 @@ function charOffsets(str, family) {
   return out;
 }
 
+/* Texto com espaçamento entre letras (por exemplo, "M A R T A  S O A R E S", frequente nos PDF do Canva):
+   retira os espaços entre letras e mantém os espaços maiores, que separam as palavras. */
+function unspace(ln) {
+  const toks = ln.text.trim().split(/\s+/);
+  const singles = toks.filter((t) => t.length === 1).length;
+  if (singles < 4 || singles / toks.length < 0.6) return;
+  // distância real entre as letras, medida pela posição dos caracteres antes e depois de cada espaço
+  const runs = [];
+  const re = /\s+/g; let m;
+  while ((m = re.exec(ln.text)) !== null) {
+    const pi = m.index - 1, ni = m.index + m[0].length;
+    if (pi < 0 || ni >= ln.text.length || !ln.map[pi] || !ln.map[ni]) continue;
+    runs.push({ s: m.index, e: ni, g: ln.map[ni].x0 - ln.map[pi].x1 });
+  }
+  if (runs.length < 3) return;
+  const gs = runs.map((r) => r.g).sort((a, b) => a - b);
+  const small = Math.max(gs[Math.floor(gs.length * 0.3)], 0.5);
+  const drop = new Set();
+  for (const r of runs) if (r.g < small * 1.8) for (let i = r.s; i < r.e; i++) drop.add(i);
+  let text = '', map = [];
+  for (let i = 0; i < ln.text.length; i++) { if (drop.has(i)) continue; text += ln.text[i]; map.push(ln.map[i]); }
+  ln.text = text;
+  ln.map = map;
+}
+
 /* Extrai o texto de cada página, agrupado em linhas, com a posição de cada carácter. */
 async function extract() {
   for (let n = 1; n <= st.pdf.numPages; n++) {
@@ -130,6 +155,7 @@ async function extract() {
       if (it.hasEOL) { flush(); prev = null; }
     }
     flush();
+    rawLines.forEach(unspace);
     // junta linhas consecutivas do mesmo parágrafo, para detectar dados partidos entre linhas
     let block = null, last = null;
     for (const ln of rawLines) {
@@ -137,7 +163,7 @@ async function extract() {
       const h = first ? (first.yb2 - first.yt) : 12;
       const y = first ? first.yt : 0;
       if (block && last && y - last.y > 0 && y - last.y <= h * 1.55) {
-        block.text += ' '; block.map.push(null);
+        block.text += '\n'; block.map.push(null);
         block.text += ln.text; block.map.push(...ln.map);
       } else {
         if (block) { pinfo.lines.push(block); st.lines.push(block); }
@@ -234,7 +260,12 @@ function computeBoxes() {
             if (!box) box = { page: ln.page, x0: m.x0 - m.pad, x1: m.x1 + m.pad, yt: m.yt, yb: m.yb2 };
             else { box.x0 = Math.min(box.x0, m.x0 - m.pad); box.x1 = Math.max(box.x1, m.x1 + m.pad); box.yt = Math.min(box.yt, m.yt); box.yb = Math.max(box.yb, m.yb2); }
           }
-          if (box) en.boxes.push(box);
+          if (box) {
+            // não cobre a pontuação que se segue ao dado (vírgula, ponto, parêntese)
+            const nx = ln.map[b];
+            if (nx && /[,.;:)»”]/.test(ln.text[b] || '')) box.x1 = Math.min(box.x1, nx.x0);
+            en.boxes.push(box);
+          }
         }
       });
     }
