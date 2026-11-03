@@ -72,14 +72,15 @@
         <div class="card">
           <h2>Resultado</h2>
           <fieldset>
-            <label class="radio"><input type="radio" name="mode" value="redact" checked><span><b>Rasura</b>: os dados ficam cobertos por caixas pretas.</span></label>
-            <label class="radio"><input type="radio" name="mode" value="label"><span><b>Etiquetas</b>: os dados são cobertos por etiquetas, como [PESSOA_1].</span></label>
+            <label class="radio"><input type="radio" name="mode" value="xxxxx" checked><span><b>XXXXX</b>: os dados são substituídos por XXXXX.</span></label>
+            <label class="radio"><input type="radio" name="mode" value="label"><span><b>Etiquetas</b>: os dados são substituídos por etiquetas, como [PESSOA_1], que distinguem as pessoas e as entidades.</span></label>
+            <label class="radio"><input type="radio" name="mode" value="redact"><span><b>Rasura</b>: os dados ficam cobertos por caixas pretas.</span></label>
           </fieldset>
           <button class="btn dark block" id="btnPdf" disabled>Descarregar o PDF anonimizado</button>
           <button class="btn block" id="btnText" disabled>Descarregar o texto pseudonimizado (.docx)</button>
           <button class="btn block" id="btnTable" disabled>Descarregar a tabela de correspondências (.docx)</button>
           <div id="outStatus" class="status"></div>
-          <p class="muted small">O PDF anonimizado é gerado como imagem de cada página, pelo que os dados rasurados deixam de existir no ficheiro e não podem ser recuperados por cópia ou pesquisa. O texto pseudonimizado destina-se a ser trabalhado em sistemas de inteligência artificial; a tabela permite repor os dados com o Cofre para Word.</p>
+          <p class="muted small">No PDF anonimizado, os dados originais deixam de existir no ficheiro: cada página é reconstruída e o texto pesquisável contém apenas XXXXX ou as etiquetas no lugar dos dados, pelo que não podem ser recuperados por cópia, pesquisa ou ferramentas de inteligência artificial. O texto pseudonimizado destina-se a ser trabalhado em sistemas de inteligência artificial; a tabela permite repor os dados com o Cofre para Word.</p>
         </div>
 
         <div class="card small">

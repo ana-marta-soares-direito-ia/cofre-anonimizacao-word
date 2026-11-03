@@ -599,7 +599,7 @@
         if (!v || !v.trim()) return;
         items.push({
           search: v,
-          replacement: u.prefix + (redact ? REDACT : en.label),
+          replacement: u.prefix + (opts.style === 'x' ? 'XXXXX' : redact ? REDACT : en.label),
           matchCase: !en.manual,
           wholeWord: isWordy(v),
           entityId: en.id

@@ -1,5 +1,5 @@
 // Cofre PDF: guarda os ficheiros da aplicação para funcionar sem ligação. Não guarda documentos.
-const CACHE = 'cofre-pdf-v1';
+const CACHE = 'cofre-pdf-v2';
 const FILES = ['./', 'index.html', 'app.css', 'app.js', 'lib/pdf.min.mjs', 'lib/pdf.worker.min.mjs', 'lib/pdf-lib.min.js',
   '../engine.js', '../docxutil.js', '../licenca.js', '../nacl-fast.min.js', 'icones/icone-192.png',
   '../fonts/fraunces-600.woff2', '../fonts/inter-400.woff2', '../fonts/inter-500.woff2', '../fonts/inter-600.woff2'];

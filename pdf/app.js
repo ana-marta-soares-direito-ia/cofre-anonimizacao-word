@@ -123,7 +123,7 @@ async function extract() {
         const cum = charOffsets(it.str, fam);
         for (let i = 0; i < len; i++) {
           cur.text += it.str[i];
-          cur.map.push({ x0: x + w * cum[i], x1: x + w * cum[i + 1], yt: yb - fh * 0.88, yb2: yb + fh * 0.24, pad: fh * 0.12 });
+          cur.map.push({ x0: x + w * cum[i], x1: x + w * cum[i + 1], yt: yb - fh * 0.88, yb2: yb + fh * 0.24, pad: fh * 0.12, bl: yb, fh });
         }
         prev = { yb, xe: x + w };
       }
@@ -212,7 +212,7 @@ function analyze() {
 function computeBoxes() {
   // as formas mais longas são localizadas primeiro; as mais curtas não podem sobrepor-se a elas
   const units = [];
-  for (const en of st.entities) { en.boxes = []; en.occ = 0; for (const u of E.unitsOf(en)) units.push({ en, u, needle: u.prefix + u.text }); }
+  for (const en of st.entities) { en.boxes = []; en.occ = 0; en.ranges = []; for (const u of E.unitsOf(en)) units.push({ en, u, needle: u.prefix + u.text }); }
   units.sort((a, b) => b.needle.length - a.needle.length);
   const covered = new Map();
   const free = (ln, a, b) => (covered.get(ln) || []).every(([x, y]) => b <= x || a >= y);
@@ -224,7 +224,7 @@ function computeBoxes() {
         for (const i of E.wordSearch(ln.text, needle, !en.manual, ww)) {
           if (!free(ln, i + u.prefix.length, i + needle.length)) continue;
           take(ln, i + u.prefix.length, i + needle.length);
-          const a = i + u.prefix.length, b = i + needle.length; en.occ++;
+          const a = i + u.prefix.length, b = i + needle.length; en.occ++; en.ranges.push({ ln, a, b });
           let box = null;
           for (let k = a; k < b; k++) {
             const m = ln.map[k];
@@ -308,6 +308,34 @@ function updateButtons() {
   $('btnPdf').disabled = !has; $('btnText').disabled = !has || !st.lines.length; $('btnTable').disabled = !has || !st.entities.length;
 }
 function mode() { return document.querySelector('input[name=mode]:checked').value; }
+const XX = 'XXXXX';
+function tokenFor(en) { return mode() === 'label' ? en.label : XX; }
+
+/* Texto de cada linha visual depois da substituição, sem os dados e sem o que estiver sob caixas manuais. */
+function replacedLines(p) {
+  const out = [];
+  const manual = st.manual[p.n] || [];
+  const under = (m) => manual.some((b) => { const cx = (m.x0 + m.x1) / 2, cy = (m.yt + m.yb2) / 2; return cx >= b.x && cx <= b.x + b.w && cy >= b.y && cy <= b.y + b.h; });
+  for (const ln of p.lines) {
+    const starts = new Map();
+    for (const en of st.entities) { if (!en.selected) continue; for (const r of en.ranges || []) if (r.ln === ln) starts.set(r.a, { b: r.b, tok: tokenFor(en) }); }
+    let seg = null, k = 0, lastManual = false;
+    const push = () => { if (seg && seg.text.trim()) out.push(seg); seg = null; };
+    while (k < ln.text.length) {
+      const m = ln.map[k];
+      if (m && seg && Math.abs(m.bl - seg.bl) > seg.fh * 0.5) push();
+      if (m && !seg) seg = { x: m.x0, bl: m.bl, fh: m.fh, text: '' };
+      const r = starts.get(k);
+      if (r) { if (seg) seg.text += r.tok; k = r.b; lastManual = false; continue; }
+      if (m && under(m)) { if (seg && !lastManual) seg.text += XX; lastManual = true; k++; continue; }
+      lastManual = false;
+      if (seg) seg.text += ln.text[k];
+      k++;
+    }
+    push();
+  }
+  return out;
+}
 
 /* --------------------------------------------------------------- saídas */
 async function exportPdf() {
@@ -315,6 +343,7 @@ async function exportPdf() {
   try {
     const out = await PDFLib.PDFDocument.create();
     out.setProducer('Cofre PDF | Ana Marta Soares'); out.setCreator('Cofre PDF');
+    const font = await out.embedFont(PDFLib.StandardFonts.Helvetica);
     const m = mode();
     for (const p of st.pages) {
       status('outStatus', `A gerar a página ${p.n} de ${st.pages.length}…`, 'busy');
@@ -330,7 +359,14 @@ async function exportPdf() {
           if (b.page !== p.n) continue;
           const x = (b.x0 - 1) * S, y = (b.yt - 1) * S, w = (b.x1 - b.x0 + 2) * S, h = (b.yb - b.yt + 2) * S;
           if (m === 'redact') { ctx.fillStyle = '#000'; ctx.fillRect(x, y, w, h); }
-          else {
+          else if (m === 'xxxxx') {
+            ctx.fillStyle = '#fff'; ctx.fillRect(x, y, w, h);
+            let fs = h * 0.72; ctx.font = `${fs}px Arial`;
+            const tw = ctx.measureText(XX).width;
+            if (tw > w - 2) { fs = fs * (w - 2) / tw; ctx.font = `${fs}px Arial`; }
+            ctx.fillStyle = '#1e1a18'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+            ctx.fillText(XX, x + h * 0.18, y + h / 2);
+          } else {
             ctx.fillStyle = '#fff'; ctx.fillRect(x, y, w, h);
             ctx.strokeStyle = '#1e1a18'; ctx.lineWidth = Math.max(1, S * 0.4); ctx.strokeRect(x, y, w, h);
             let fs = h * 0.7; ctx.font = `600 ${fs}px Arial`;
@@ -347,15 +383,21 @@ async function exportPdf() {
       const img = await out.embedJpg(await blob.arrayBuffer());
       const pg = out.addPage([p.w, p.h]);
       pg.drawImage(img, { x: 0, y: 0, width: p.w, height: p.h });
+      // camada de texto pesquisável, que contém apenas o texto já substituído
+      for (const seg of replacedLines(p)) {
+        const txt = seg.text.replace(/[^\x20-\x7E\u00A0-\u00FF€‘’“”–—…•]/g, ' ');
+        try { pg.drawText(txt, { x: seg.x, y: p.h - seg.bl, size: Math.max(4, seg.fh), font, opacity: 0 }); }
+        catch (e) { /* carácter não suportado: a linha fica só na imagem */ }
+      }
     }
     const bytes = await out.save();
     download(new Blob([bytes], { type: 'application/pdf' }), baseName() + ' (anonimizado).pdf');
-    status('outStatus', 'PDF anonimizado descarregado. Os dados rasurados já não existem no ficheiro.', 'ok');
+    status('outStatus', 'PDF anonimizado descarregado. Os dados substituídos já não existem no ficheiro.', 'ok');
   } catch (e) { status('outStatus', 'Não foi possível gerar o PDF: ' + (e.message || e), 'err'); }
   finally { btn.disabled = false; }
 }
 function exportText() {
-  const plan = E.buildPlan(st.entities, { style: 'label' });
+  const plan = E.buildPlan(st.entities, { style: mode() === 'label' ? 'label' : 'x' });
   const paras = [{ text: baseName() + ' (texto pseudonimizado)', bold: true, size: 14, after: 200 }];
   for (const p of st.pages) {
     paras.push({ text: 'Página ' + p.n, bold: true, size: 11, color: '5C544F', after: 80 });
