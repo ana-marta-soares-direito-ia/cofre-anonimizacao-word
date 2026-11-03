@@ -332,7 +332,7 @@
   }
 
   /* --------------------------------------------- pesquisa no Word */
-  function wordSafe(s) { return s.replace(/\^/g, '^^'); }
+  function wordSafe(s) { return s.replace(/\^/g, '^^').replace(/[\n\u000b]/g, '^l').replace(/\t/g, '^t'); } // quebra de linha manual e tabulação na pesquisa do Word
   function searchOpts(it) { return { matchCase: !!it.matchCase, matchWholeWord: !!it.wholeWord }; }
 
   async function locate(en) {

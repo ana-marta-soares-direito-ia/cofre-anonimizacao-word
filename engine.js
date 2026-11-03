@@ -332,9 +332,9 @@
     if (!toks.length) return;
     function gap(i) { return text.slice(toks[i].e, toks[i + 1].s); }
     function spaceGap(i) { return /^[  ]+$/.test(gap(i)); }
-    // mudança de linha dentro do mesmo bloco (PDF): só continua o nome se a palavra seguinte for nome próprio ou apelido
+    // mudança de linha dentro do mesmo bloco (PDF) ou quebra de linha manual (Word): só continua o nome se a palavra seguinte for nome próprio ou apelido
     function lineGap(i) {
-      if (!/^[ \u00a0]*\n[ \u00a0]*$/.test(gap(i)) || i + 1 >= toks.length) return false;
+      if (!/^[ \u00a0]*[\n\u000b][ \u00a0]*$/.test(gap(i)) || i + 1 >= toks.length) return false;
       var nx = norm(toks[i + 1].t);
       return (FIRST.has(nx) || SURN.has(nx)) && !BLOCK.has(nx) && !MONTHS.has(nx);
     }
@@ -438,7 +438,7 @@
     var out = [];
     if (!text || !text.trim()) return out;
     // os padrões lêem as mudanças de linha como espaços (mesmo comprimento, mesmas posições)
-    detectPatterns(text.replace(/\n/g, ' '), out);
+    detectPatterns(text.replace(/[\n\u000b]/g, ' '), out);
     detectPersons(text, out);
     return resolve(out);
   }
@@ -636,7 +636,7 @@
   /** Simula, sobre texto simples, a pesquisa e substituição feita no Word. */
   function wordSearch(text, needle, matchCase, wholeWord) {
     // a mudança de linha e o espaço inquebrável valem como espaço (mesmo comprimento, mesmas posições)
-    var sp = function (x) { return x.replace(/[\n\u00a0]/g, ' '); };
+    var sp = function (x) { return x.replace(/[\n\u000b\u00a0]/g, ' '); };
     var res = [], h = sp(matchCase ? text : text.toLowerCase()), n = sp(matchCase ? needle : needle.toLowerCase());
     var isW = new RegExp('[' + LET + '0-9_]');
     var i = 0;
