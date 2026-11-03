@@ -17,6 +17,7 @@
   h1 { margin:0; font-size:30px; line-height:1.15; }
   header p.lead { font-size:17px; max-width:640px; opacity:.93; margin:18px 0 26px; }
   .cta { display:inline-block; background:#fff; color:var(--brand); padding:12px 20px; border-radius:9px; font-weight:650; text-decoration:none; }
+  .cta.solid { background:var(--brand); color:#fff; }
   .cta.ghost { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.6); margin-left:8px; }
   main { padding:8px 16px 40px; }
   section { background:#fff; border:1px solid var(--line); border-radius:14px; padding:24px; margin-top:20px; }
@@ -42,8 +43,8 @@
   <div class="wrap">
     <div class="brand"><img src="assets/icon-128.png" alt=""><h1>Cofre de Anonimização<br><span style="font-weight:400;font-size:20px">para Microsoft Word</span></h1></div>
     <p class="lead">Suplemento que identifica e substitui os dados pessoais de peças processuais, contratos e pareceres directamente no Word, em segundos, sem enviar o documento para qualquer servidor externo.</p>
-    <a class="cta" href="manifest.xml" download="cofre-anonimizacao-manifest.xml">Descarregar o suplemento</a>
-    <a class="cta ghost" href="#instalar">Instruções de instalação</a>
+    <a class="cta" href="#instalar">Instalar</a>
+    <a class="cta ghost" href="https://www.linkedin.com/in/marta-soares-direito-ia">Adquirir licença</a>
   </div>
 </header>
 
@@ -62,59 +63,50 @@
   </section>
 
   <section id="instalar">
-    <h2>Instalação</h2>
-    <p>Descarregue primeiro o ficheiro do suplemento (<a href="manifest.xml" download="cofre-anonimizacao-manifest.xml">cofre-anonimizacao-manifest.xml</a>) e escolha depois a versão do Word que utiliza. O suplemento exige o Microsoft 365, o Office 2021 ou uma versão posterior, ou o Word na Web.</p>
+    <h2>Instalação em um minuto</h2>
+    <p>Escolha o seu computador, descarregue o instalador e abra-o. O instalador fecha o Word, instala o suplemento e indica quando terminou. O suplemento exige o Microsoft 365, o Office 2021 ou uma versão posterior.</p>
     <div class="tabs" role="tablist">
-      <button class="on" data-p="win">Word para Windows</button>
-      <button data-p="mac">Word para Mac</button>
+      <button class="on" data-p="win">Windows</button>
+      <button data-p="mac">Mac</button>
       <button data-p="web">Word na Web</button>
-      <button data-p="org">Escritórios (instalação centralizada)</button>
+      <button data-p="org">Escritórios</button>
     </div>
 
     <div class="pane on" id="p-win">
-      <h3>Opção A: carregamento directo</h3>
+      <p><a class="cta solid" href="instalar/instalar-cofre-windows.bat" download>Descarregar o instalador para Windows</a></p>
       <ol>
-        <li>No Word, abra o separador <b>Base</b> e seleccione <b>Suplementos</b> (ou <b>Inserir &gt; Os Meus Suplementos</b>).</li>
-        <li>Seleccione <b>Mais Suplementos</b> e, na janela que se abre, <b>Os Meus Suplementos</b>.</li>
-        <li>Seleccione <b>Carregar o Meu Suplemento</b>, indique o ficheiro descarregado e confirme.</li>
-      </ol>
-      <h3>Opção B: pasta de suplementos fidedignos</h3>
-      <p class="muted">Utilize esta opção se o botão "Carregar o Meu Suplemento" não estiver disponível.</p>
-      <ol>
-        <li>Crie uma pasta, por exemplo <code>C:\Suplementos</code>, e guarde nela o ficheiro descarregado.</li>
-        <li>No Explorador de Ficheiros, clique com o botão direito na pasta, seleccione <b>Propriedades &gt; Partilha &gt; Partilhar</b> e copie o caminho de rede apresentado (por exemplo, <code>\\NOME-DO-COMPUTADOR\Suplementos</code>).</li>
-        <li>No Word, abra <b>Ficheiro &gt; Opções &gt; Centro de Fidedignidade &gt; Definições do Centro de Fidedignidade &gt; Catálogos de Suplementos Fidedignos</b>.</li>
-        <li>Cole o caminho de rede em <b>URL do Catálogo</b>, seleccione <b>Adicionar catálogo</b>, marque <b>Mostrar no Menu</b> e confirme. Reinicie o Word.</li>
-        <li>Abra <b>Inserir &gt; Os Meus Suplementos &gt; Pasta Partilhada</b>, seleccione o Cofre de Anonimização e <b>Adicionar</b>.</li>
+        <li>Abra o ficheiro descarregado <b>instalar-cofre-windows.bat</b>. Se o browser perguntar se pretende manter o ficheiro, seleccione <b>Manter</b>.</li>
+        <li>Se o Windows apresentar o aviso "O Windows protegeu o seu PC", seleccione <b>Mais informações</b> e depois <b>Executar mesmo assim</b>. O aviso surge em todos os programas que não provêm da loja da Microsoft.</li>
+        <li>Quando surgir "Instalação concluída", abra o Word e um documento, seleccione <b>Base &gt; Suplementos</b> e escolha <b>Cofre de Anonimização</b>.</li>
       </ol>
     </div>
 
     <div class="pane" id="p-mac">
+      <p><a class="cta solid" href="instalar/instalar-cofre-mac.zip" download>Descarregar o instalador para Mac</a></p>
       <ol>
-        <li>Feche o Word.</li>
-        <li>No Finder, seleccione <b>Ir &gt; Ir para a pasta</b> (Shift+Cmd+G) e escreva <code>~/Library/Containers/com.microsoft.Word/Data/Documents/</code></li>
-        <li>Crie nessa pasta uma pasta chamada <code>wef</code>, caso não exista, e copie para ela o ficheiro descarregado.</li>
-        <li>Abra o Word e um documento, e seleccione <b>Base &gt; Suplementos</b> ou <b>Inserir &gt; Os Meus Suplementos</b>. O Cofre de Anonimização surge na lista de suplementos de programador.</li>
+        <li>Abra a pasta Transferências. O ficheiro <b>instalar-cofre-mac.command</b> já se encontra extraído (se vir apenas o ficheiro .zip, faça duplo clique para o extrair).</li>
+        <li>Clique no ficheiro <b>com o botão direito</b> (ou Ctrl + clique), seleccione <b>Abrir</b> e, no aviso, novamente <b>Abrir</b>. Este passo só é necessário na primeira vez.</li>
+        <li>Quando surgir "Instalação concluída", abra o Word e um documento, seleccione <b>Base &gt; Suplementos</b> e escolha <b>Cofre de Anonimização</b>.</li>
       </ol>
     </div>
 
     <div class="pane" id="p-web">
       <ol>
-        <li>Abra o documento no Word na Web (Microsoft 365).</li>
-        <li>Seleccione <b>Base &gt; Suplementos &gt; Mais Suplementos</b>.</li>
-        <li>Seleccione <b>Os Meus Suplementos &gt; Carregar o Meu Suplemento</b>, indique o ficheiro descarregado e seleccione <b>Carregar</b>.</li>
+        <li><a href="manifest.xml" download="cofre-anonimizacao-manifest.xml">Descarregue o ficheiro do suplemento</a>.</li>
+        <li>Abra o documento no Word na Web e seleccione <b>Base &gt; Suplementos &gt; Mais Suplementos &gt; Os Meus Suplementos &gt; Carregar o Meu Suplemento</b>.</li>
+        <li>Indique o ficheiro descarregado e seleccione <b>Carregar</b>.</li>
       </ol>
     </div>
 
     <div class="pane" id="p-org">
-      <p>Nos escritórios e organizações com Microsoft 365, o administrador pode instalar o suplemento para todos os utilizadores de uma só vez, sem intervenção de cada um:</p>
+      <p>Nos escritórios com Microsoft 365, o administrador pode instalar o suplemento para todos os utilizadores de uma só vez:</p>
       <ol>
-        <li>No Centro de administração do Microsoft 365, abra <b>Definições &gt; Aplicações integradas</b>.</li>
-        <li>Seleccione <b>Carregar aplicações personalizadas</b>, escolha o tipo <b>Suplemento do Office</b> e carregue o ficheiro descarregado.</li>
-        <li>Indique os utilizadores ou grupos abrangidos e conclua. O suplemento passa a surgir no separador Base do Word desses utilizadores, normalmente no prazo de algumas horas.</li>
+        <li><a href="manifest.xml" download="cofre-anonimizacao-manifest.xml">Descarregue o ficheiro do suplemento</a>.</li>
+        <li>No Centro de administração do Microsoft 365, abra <b>Definições &gt; Aplicações integradas &gt; Carregar aplicações personalizadas</b>, escolha <b>Suplemento do Office</b> e carregue o ficheiro.</li>
+        <li>Indique os utilizadores ou grupos abrangidos e conclua.</li>
       </ol>
     </div>
-    <div class="note">Depois de instalado, o botão <b>Anonimizar</b> surge no separador <b>Base</b> do Word, no grupo Cofre de Anonimização. Na primeira utilização é necessária ligação à Internet para carregar o painel; o conteúdo do documento nunca é enviado.</div>
+    <div class="note">Na primeira abertura, o painel pede o código de licença: cole o código recebido e seleccione <b>Activar</b>. O botão <b>Anonimizar</b> passa a estar disponível no separador <b>Base</b>.</div>
   </section>
 
   <section>
