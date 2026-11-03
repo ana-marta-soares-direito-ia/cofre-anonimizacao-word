@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cofre de Anonimização</title>
+  <script>
+    // Verificação prévia: o painel exige um motor de navegação recente (Microsoft 365, Office 2021 ou posterior).
+    window.__cofreSuportado = (function () {
+      try { new RegExp('(?<![a-z])b', 'u'); new RegExp('\\p{L}', 'u'); return typeof Promise !== 'undefined' && typeof Map !== 'undefined'; }
+      catch (e) { return false; }
+    })();
+  </script>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <link rel="stylesheet" href="taskpane.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="5" y="13" width="22" height="16" rx="3.5" fill="currentColor" opacity=".95"/>
+        <path d="M10 13V9.5a6 6 0 0 1 12 0V13" fill="none" stroke="currentColor" stroke-width="3"/>
+        <circle cx="16" cy="20" r="2.4" fill="#fff"/><rect x="15" y="21" width="2" height="4" rx="1" fill="#fff"/>
+      </svg>
+      <div>
+        <h1>Cofre de Anonimização</h1>
+        <p class="sub">para Microsoft Word</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="anon" role="tab" aria-selected="true">Anonimizar</button>
+      <button class="tab" data-tab="repor" role="tab" aria-selected="false">Repor dados</button>
+      <button class="tab" data-tab="info" role="tab" aria-selected="false">Informação</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="unsupported" class="notice danger" hidden>
+      Esta versão do Microsoft Word não permite executar o Cofre de Anonimização. É necessário o Microsoft 365, o Office 2021 ou uma versão posterior, ou o Word na Web.
+    </div>
+    <div id="outside" class="notice warn" hidden>
+      Este painel destina-se a ser aberto dentro do Microsoft Word. Consulte as instruções de instalação.
+    </div>
+
+    <!-- =============================== ANONIMIZAR -->
+    <section id="tab-anon" class="panel active">
+      <div class="card">
+        <div class="step"><span class="num">1</span><h2>Análise do documento</h2></div>
+        <p class="muted">O documento aberto é analisado neste computador. Nenhum conteúdo é enviado para servidores externos.</p>
+        <details class="cats">
+          <summary>Categorias a detectar</summary>
+          <div id="catList" class="catlist"></div>
+        </details>
+        <button id="btnAnalyze" class="btn primary block">Analisar documento</button>
+        <div id="analyzeStatus" class="status" aria-live="polite"></div>
+      </div>
+
+      <div id="review" class="card" hidden>
+        <div class="step"><span class="num">2</span><h2>Revisão dos elementos identificados</h2></div>
+        <p class="muted" id="reviewSummary"></p>
+        <div class="toolbar">
+          <button id="btnAll" class="btn link">Seleccionar todos</button>
+          <button id="btnNone" class="btn link">Desmarcar todos</button>
+          <span class="sep"></span>
+          <button id="btnMark" class="btn link" title="Realça no documento os elementos seleccionados">Realçar no documento</button>
+          <button id="btnUnmark" class="btn link">Remover realce</button>
+        </div>
+        <div id="entityList" class="entities"></div>
+
+        <div class="addterm">
+          <label for="manualTerm" class="lbl">Acrescentar um termo não identificado</label>
+          <div class="row">
+            <input id="manualTerm" type="text" placeholder="Por exemplo, uma alcunha ou um nome de empresa" autocomplete="off">
+            <select id="manualType" aria-label="Categoria do termo"></select>
+          </div>
+          <button id="btnAddTerm" class="btn secondary block">Acrescentar</button>
+        </div>
+      </div>
+
+      <div id="applyCard" class="card" hidden>
+        <div class="step"><span class="num">3</span><h2>Substituição</h2></div>
+        <fieldset class="modes">
+          <legend class="lbl">Modo</legend>
+          <label class="radio"><input type="radio" name="mode" value="pseudo" checked>
+            <span><b>Pseudonimização</b> (reversível). Os dados são substituídos por etiquetas, como [PESSOA_1], e é gerada a tabela de correspondências que permite repor os dados.</span></label>
+          <label class="radio"><input type="radio" name="mode" value="anon">
+            <span><b>Anonimização com etiquetas</b> (irreversível). Os dados são substituídos por etiquetas e não é gerada tabela de correspondências.</span></label>
+          <label class="radio"><input type="radio" name="mode" value="redact">
+            <span><b>Rasura</b> (irreversível). Os dados são substituídos por ████████.</span></label>
+        </fieldset>
+        <fieldset class="opts">
+          <legend class="lbl">Opções</legend>
+          <label class="check"><input type="checkbox" id="optRevisions" checked>
+            <span>Aceitar as revisões pendentes e eliminar os comentários, que podem conter dados pessoais</span></label>
+          <label class="check"><input type="checkbox" id="optProps" checked>
+            <span>Limpar as propriedades do documento (autor, título, empresa e outras)</span></label>
+          <label class="check"><input type="checkbox" id="optHighlight">
+            <span>Realçar as substituições no documento</span></label>
+        </fieldset>
+        <div class="notice info small">As substituições são efectuadas no documento aberto. Recomenda-se que trabalhe sobre uma cópia, guardando o documento com outro nome antes ou depois da operação.</div>
+        <button id="btnApply" class="btn primary block">Aplicar ao documento</button>
+        <div id="confirmApply" class="confirm" hidden>
+          <p id="confirmText"></p>
+          <div class="row">
+            <button id="btnConfirm" class="btn primary">Confirmar</button>
+            <button id="btnCancel" class="btn secondary">Cancelar</button>
+          </div>
+        </div>
+        <div id="applyStatus" class="status" aria-live="polite"></div>
+      </div>
+
+      <div id="resultCard" class="card" hidden>
+        <div class="step"><span class="num ok">✓</span><h2>Resultado</h2></div>
+        <div id="resultSummary"></div>
+        <div id="tableBlock" hidden>
+          <h3>Tabela de correspondências</h3>
+          <div class="notice warn small">A tabela contém os dados pessoais originais. Deve ser guardada separadamente e nunca deve ser enviada com o documento pseudonimizado nem colada num sistema de inteligência artificial.</div>
+          <textarea id="tableText" readonly rows="8"></textarea>
+          <div class="row wrap">
+            <button id="btnTableDoc" class="btn primary">Abrir num novo documento</button>
+            <button id="btnTableCopy" class="btn secondary">Copiar</button>
+          </div>
+          <div id="tableStatus" class="status" aria-live="polite"></div>
+        </div>
+        <button id="btnRecheck" class="btn secondary block">Verificar novamente o documento</button>
+      </div>
+    </section>
+
+    <!-- =============================== REPOR -->
+    <section id="tab-repor" class="panel">
+      <div class="card">
+        <div class="step"><span class="num">↺</span><h2>Repor os dados originais</h2></div>
+        <p class="muted">Depois de trabalhar o texto pseudonimizado, abra aqui o documento resultante e indique a tabela de correspondências. Cada etiqueta, como [PESSOA_1], é substituída pelo dado original no documento aberto.</p>
+        <label class="lbl" for="tableFile">Ficheiro da tabela (.docx ou .txt)</label>
+        <input id="tableFile" type="file" accept=".docx,.txt,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        <label class="lbl" for="revertText">Ou cole aqui o conteúdo da tabela</label>
+        <textarea id="revertText" rows="8" placeholder="[PESSOA_1] = Nome completo&#10;[NIF_1] = 123456789"></textarea>
+        <div id="revertPreview" class="muted small"></div>
+        <button id="btnRevert" class="btn primary block">Repor dados no documento</button>
+        <div id="revertStatus" class="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- =============================== INFORMAÇÃO -->
+    <section id="tab-info" class="panel">
+      <div class="card prose">
+        <h2>Funcionamento</h2>
+        <p>O Cofre de Anonimização identifica dados pessoais e dados de identificação no documento aberto e substitui-os por etiquetas ou por rasura. A análise e a substituição decorrem integralmente no computador do utilizador: o conteúdo do documento não é transmitido, registado nem conservado pela ferramenta.</p>
+        <h2>Dados identificados</h2>
+        <p>Nomes de pessoas singulares, sociedades e outras pessoas colectivas, NIF e NIPC, cartão de cidadão e bilhete de identidade, NISS, passaporte, cédula profissional, IBAN e NIB, correio electrónico, telefone, moradas, códigos postais e localidades, matrículas de veículos, datas de nascimento, números de processo e identificação matricial e registal de prédios.</p>
+        <h2>Partes do documento abrangidas</h2>
+        <p>Corpo do texto, tabelas, cabeçalhos, rodapés, notas de rodapé e notas finais. Quando seleccionada a opção respectiva, são também aceites as revisões pendentes, eliminados os comentários e limpas as propriedades do documento.</p>
+        <h2>Limitações</h2>
+        <p>A detecção assenta em regras e em léxicos de nomes, pelo que a revisão humana da lista é indispensável antes da aplicação. Não são tratados o texto contido em imagens, caixas de texto, formas, gráficos e objectos incorporados. Os nomes pouco comuns, as alcunhas e as referências indirectas a pessoas (por exemplo, "o irmão do Autor") devem ser verificados e, se necessário, acrescentados manualmente.</p>
+        <h2>Enquadramento</h2>
+        <p>A pseudonimização reduz os riscos para os titulares dos dados, mas os dados pseudonimizados continuam a ser dados pessoais nos termos do considerando 26 e do artigo 4.º, n.º 5, do Regulamento (UE) 2016/679 (RGPD), enquanto for possível a reidentificação com recurso à tabela de correspondências. A anonimização irreversível exige, além da substituição dos identificadores directos, a ponderação dos identificadores indirectos que subsistam no texto.</p>
+        <p class="muted small">Versão 1.0</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mark">Ana Marta Soares, Especialista em IA aplicada ao Direito</footer>
+
+  <script src="engine.js"></script>
+  <script src="docxutil.js"></script>
+  <script src="taskpane.js"></script>
+</body>
+</html>
