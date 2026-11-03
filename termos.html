@@ -7,7 +7,11 @@
 <meta name="description" content="Suplemento do Microsoft Word para anonimização e pseudonimização local de documentos jurídicos. Ana Marta Soares, Especialista em IA aplicada ao Direito.">
 <link rel="icon" href="assets/icon-64.png">
 <style>
-  :root { --ink:#1e1a2b; --muted:#5d566e; --line:#e3dcef; --bg:#f7f5fb; --brand:#4a2580; --brand2:#6e3fc0; --soft:#efe8fb; }
+@font-face{font-family:"Fraunces";src:url("fonts/fraunces-600.woff2") format("woff2");font-weight:600;font-display:swap;}
+@font-face{font-family:"Inter";src:url("fonts/inter-400.woff2") format("woff2");font-weight:400;font-display:swap;}
+@font-face{font-family:"Inter";src:url("fonts/inter-600.woff2") format("woff2");font-weight:600;font-display:swap;}
+
+  :root { --ink:#1e1a18; --muted:#5c544f; --line:#ddd4ca; --bg:#f4f1ec; --brand:#1e1a18; --brand2:#3a332f; --soft:#ece6dd; }
   * { box-sizing: border-box; }
   body { margin:0; font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.55; }
   header { background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff; padding:48px 16px 56px; }
@@ -35,6 +39,21 @@
   .muted { color:var(--muted); }
   footer { text-align:center; color:var(--brand); font-size:13px; padding:20px 16px 32px; }
   @media (max-width:520px){ h1{font-size:24px} .cta.ghost{margin:10px 0 0} section{padding:18px} }
+
+  /* estilo sóbrio */
+  body { font-family:"Inter","Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; }
+  header { background:#f4f1ec !important; color:var(--ink) !important; border-bottom:1px solid var(--line); }
+  header p.lead { color:var(--muted); opacity:1; }
+  h1, h2 { font-family:"Fraunces",Georgia,serif; font-weight:600; }
+  h2 { color:var(--ink) !important; }
+  .brand img { box-shadow:none; }
+  .cta { background:var(--ink) !important; color:#fff !important; }
+  .cta.ghost { background:transparent !important; color:var(--ink) !important; border:1px solid var(--ink) !important; }
+  .tabs button { color:var(--ink); }
+  .tabs button.on { background:var(--ink); border-color:var(--ink); color:#fff; }
+  code { background:#ece6dd; color:var(--ink); }
+  a { color:var(--ink); }
+  footer { color:var(--muted); }
 </style>
 <style> .doc h2{margin-top:22px} .doc p,.doc li{font-size:15px} .doc h2:first-child{margin-top:0} header{padding:32px 16px 36px} </style>
 </head>
