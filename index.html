@@ -82,11 +82,15 @@
     </div>
 
     <div class="pane" id="p-mac">
-      <p><a class="cta solid" href="instalar/instalar-cofre-mac.zip" download>Descarregar o instalador para Mac</a></p>
       <ol>
-        <li>Abra a pasta Transferências. O ficheiro <b>instalar-cofre-mac.command</b> já se encontra extraído (se vir apenas o ficheiro .zip, faça duplo clique para o extrair).</li>
-        <li>Clique no ficheiro <b>com o botão direito</b> (ou Ctrl + clique), seleccione <b>Abrir</b> e, no aviso, novamente <b>Abrir</b>. Este passo só é necessário na primeira vez.</li>
-        <li>Quando surgir "Instalação concluída", abra o Word e um documento, seleccione <b>Base &gt; Suplementos</b> e escolha <b>Cofre de Anonimização</b>.</li>
+        <li>Feche o Word (Cmd+Q).</li>
+        <li>Carregue em <b>Cmd+Espaço</b>, escreva <b>Terminal</b> e carregue em Enter.</li>
+        <li>Copie a linha abaixo, cole-a no Terminal (Cmd+V) e carregue em Enter. Surge a mensagem "Instalação concluída".</li>
+      </ol>
+      <p><code id="maccmd" style="display:block;padding:10px;white-space:pre-wrap">mkdir -p ~/Library/Containers/com.microsoft.Word/Data/Documents/wef &amp;&amp; curl -fsSL https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/manifest.xml -o ~/Library/Containers/com.microsoft.Word/Data/Documents/wef/cofre-anonimizacao.xml &amp;&amp; echo "Instalação concluída."</code></p>
+      <p><button class="cta solid" style="border:0;cursor:pointer;font:inherit" onclick="navigator.clipboard.writeText(document.getElementById('maccmd').textContent).then(()=>{this.textContent='Copiado'})">Copiar a linha de instalação</button></p>
+      <ol start="4">
+        <li>Abra o Word e um documento, seleccione <b>Base &gt; Suplementos</b> e escolha <b>Cofre de Anonimização</b>.</li>
       </ol>
     </div>
 
