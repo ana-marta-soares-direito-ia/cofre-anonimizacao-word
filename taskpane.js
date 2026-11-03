@@ -15,8 +15,73 @@
     locate: {},          // índice de localização por entidade
     marked: [],          // variantes realçadas para revisão
     docName: '',
-    revertMap: []
+    revertMap: [],
+    licensed: false,
+    tab: 'anon'
   };
+  var LIC_KEY = 'cofre.licenca';
+
+  /* ---------------------------------------------------------- licença */
+  function storeGet() { try { return window.localStorage.getItem(LIC_KEY); } catch (e) { return null; } }
+  function storeSet(v) { try { if (v) window.localStorage.setItem(LIC_KEY, v); else window.localStorage.removeItem(LIC_KEY); return true; } catch (e) { return false; } }
+  function revokedList() {
+    // lista de códigos bloqueados, publicada no mesmo endereço; sem ligação, a licença mantém-se
+    return fetch('revogadas.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : { revogadas: [] }; })
+      .then(function (j) { return (j && j.revogadas) || []; })
+      .catch(function () { return []; });
+  }
+  function checkCode(code) {
+    var v = window.Licenca ? window.Licenca.verify(code) : { ok: false, motivo: 'Não foi possível verificar a licença.' };
+    if (!v.ok) return Promise.resolve(v);
+    return revokedList().then(function (list) {
+      if (list.indexOf(v.num) >= 0) { v.ok = false; v.motivo = 'Esta licença foi desactivada. Contacte Ana Marta Soares.'; }
+      return v;
+    });
+  }
+  function setLicensed(v) {
+    state.licensed = !!(v && v.ok);
+    if (state.licensed) {
+      $('licInfo').textContent = v.tipoNome + ' n.º ' + v.num + ', ' + (v.validade ? 'válida até ' + v.validade.toLocaleDateString('pt-PT') : 'sem prazo de validade') + '.';
+      $('btnDeactivate').hidden = false;
+    } else {
+      $('licInfo').textContent = 'Sem licença activada.';
+      $('btnDeactivate').hidden = true;
+    }
+    showTab(state.tab);
+  }
+  function initLicense() {
+    var code = storeGet();
+    if (!code) { setLicensed(null); return; }
+    checkCode(code).then(function (v) {
+      if (!v.ok) { storeSet(null); setStatus('licStatus', v.motivo, 'err'); }
+      setLicensed(v);
+    });
+  }
+  function activate() {
+    var code = $('licCode').value.replace(/\s+/g, '');
+    if (!code) { setStatus('licStatus', 'Cole o código de licença.', 'err'); return; }
+    setStatus('licStatus', 'A verificar…', 'busy');
+    checkCode(code).then(function (v) {
+      if (!v.ok) { setStatus('licStatus', v.motivo, 'err'); return; }
+      if (!storeSet(code)) setStatus('licStatus', 'Licença válida. Esta versão do Word não permite guardar a activação, pelo que poderá ser necessário repeti-la.', 'busy');
+      else setStatus('licStatus', '');
+      $('licCode').value = '';
+      setLicensed(v);
+    });
+  }
+  function deactivate() {
+    storeSet(null);
+    setLicensed(null);
+    setStatus('licStatus', 'A licença foi removida deste computador.', 'ok');
+  }
+  function showTab(name) {
+    state.tab = name;
+    document.querySelectorAll('.tab').forEach(function (x) { var on = x.dataset.tab === name; x.classList.toggle('active', on); x.setAttribute('aria-selected', on); });
+    var gate = !state.licensed && name !== 'info';
+    $('licGate').hidden = !gate;
+    document.querySelectorAll('.panel').forEach(function (p) { p.classList.toggle('active', !gate && p.id === 'tab-' + name); });
+  }
 
   /* ---------------------------------------------------------- arranque */
   function boot() {
@@ -24,6 +89,7 @@
     buildCategoryList();
     buildManualTypes();
     bindUI();
+    initLicense();
     if (typeof Office === 'undefined') { $('outside').hidden = false; disableWord(); return; }
     Office.onReady(function (info) {
       if (!info || info.host !== Office.HostType.Word) { $('outside').hidden = false; disableWord(); return; }
@@ -44,8 +110,7 @@
   function bindUI() {
     document.querySelectorAll('.tab').forEach(function (t) {
       t.addEventListener('click', function () {
-        document.querySelectorAll('.tab').forEach(function (x) { x.classList.toggle('active', x === t); x.setAttribute('aria-selected', x === t); });
-        document.querySelectorAll('.panel').forEach(function (p) { p.classList.toggle('active', p.id === 'tab-' + t.dataset.tab); });
+        showTab(t.dataset.tab);
         window.scrollTo(0, 0);
       });
     });
@@ -65,6 +130,8 @@
     $('tableFile').addEventListener('change', readTableFile);
     $('revertText').addEventListener('input', previewRevert);
     $('btnRevert').addEventListener('click', revert);
+    $('btnActivate').addEventListener('click', activate);
+    $('btnDeactivate').addEventListener('click', deactivate);
   }
 
   function buildCategoryList() {
@@ -161,6 +228,7 @@
 
   /* ------------------------------------------------------------ análise */
   async function analyze(recheck) {
+    if (!state.licensed) { showTab('anon'); return; }
     var btn = recheck ? $('btnRecheck') : $('btnAnalyze');
     busy(btn, true, 'A analisar…');
     setStatus('analyzeStatus', 'A ler o documento…', 'busy');
@@ -346,6 +414,7 @@
   }
 
   async function apply() {
+    if (!state.licensed) { showTab('anon'); return; }
     $('confirmApply').hidden = true; $('btnApply').hidden = false;
     var m = mode();
     var plan = E.buildPlan(state.entities, { style: m === 'redact' ? 'redact' : 'label' });
@@ -528,6 +597,7 @@
     setStatus('revertStatus', '');
   }
   async function revert() {
+    if (!state.licensed) { showTab('repor'); return; }
     previewRevert();
     var map = state.revertMap;
     if (!map.length) { setStatus('revertStatus', 'Indique a tabela de correspondências.', 'err'); return; }
