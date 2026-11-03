@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cofre Transcrição | Ana Marta Soares</title>
+  <meta name="description" content="Transcrição local de áudio, minuto a minuto, com identificação de oradores. Ana Marta Soares, Especialista em IA aplicada ao Direito.">
+  <meta name="theme-color" content="#1e1a18">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icones/icone-192.png">
+  <link rel="apple-touch-icon" href="icones/icone-192.png">
+  <link rel="stylesheet" href="../pdf/app.css">
+  <link rel="stylesheet" href="app.css">
+  <script>
+    // isolamento de origem: permite usar todos os núcleos do processador na transcrição
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(function () { return navigator.serviceWorker.ready; }).then(function () {
+        if (!window.crossOriginIsolated && !sessionStorage.getItem('coi')) { sessionStorage.setItem('coi', '1'); location.reload(); }
+      }).catch(function () {});
+    }
+  </script>
+</head>
+<body>
+  <header class="bar">
+    <div class="brand">
+      <img src="icones/icone-192.png" alt="">
+      <div><h1>Cofre Transcrição</h1><p>Transcrição local de áudio, minuto a minuto</p></div>
+    </div>
+    <div class="file" id="fileName"></div>
+    <div class="actions">
+      <button class="btn" id="btnInstall" hidden>Instalar no computador</button>
+      <label class="btn dark" for="fileInput" id="openLabel">Abrir gravação</label>
+      <input id="fileInput" type="file" accept="audio/*,video/*,.mp3,.m4a,.wav,.ogg,.opus,.wma,.aac,.flac,.mp4,.mov,.webm,.mkv,.amr,.3gp" hidden>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main id="viewer">
+      <div id="empty" class="empty">
+        <div class="drop" id="drop">
+          <h2>Abra uma gravação</h2>
+          <p>Arraste o ficheiro de áudio ou de vídeo para aqui, ou seleccione <b>Abrir gravação</b>. A transcrição é feita neste computador e a gravação não é enviada para qualquer servidor.</p>
+          <label class="btn dark big" for="fileInput">Abrir gravação</label>
+        </div>
+        <div class="howto">
+          <h3>Antes de começar</h3>
+          <ol>
+            <li>Utilize o Google Chrome, o Microsoft Edge ou o Brave, num computador com ligação à corrente.</li>
+            <li>Na primeira utilização, o Cofre descarrega o modelo de transcrição (entre 250 MB e 1 GB, consoante a qualidade escolhida). Fica guardado no computador e não volta a ser descarregado.</li>
+            <li>Durante a transcrição, mantenha esta janela aberta. Pode continuar a trabalhar noutras aplicações.</li>
+            <li>Para abrir as gravações directamente no Cofre, seleccione <b>Instalar no computador</b> e, depois, clique com o botão direito no ficheiro e escolha <b>Abrir com &gt; Cofre Transcrição</b>.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div id="work" hidden>
+        <div id="progress" class="card prog" hidden>
+          <div class="prog-h"><b id="progTitle">A preparar…</b><span id="progEta"></span></div>
+          <div class="barwrap"><div class="barfill" id="progBar"></div></div>
+          <p class="muted small" id="progNote"></p>
+          <button class="btn" id="btnStop">Interromper</button>
+        </div>
+        <article id="transcript" class="transcript"></article>
+      </div>
+    </main>
+
+    <aside id="side">
+      <section id="licGate" class="card" hidden>
+        <h2>Activação da licença</h2>
+        <p class="muted">Cole o código de licença que recebeu. A activação é feita uma única vez em cada computador.</p>
+        <textarea id="licCode" rows="4" placeholder="COFRE-..." spellcheck="false"></textarea>
+        <button class="btn dark block" id="btnActivate">Activar</button>
+        <div id="licStatus" class="status"></div>
+        <p class="note">Ainda não tem licença? Contacte <a href="https://www.linkedin.com/in/marta-soares-direito-ia" target="_blank" rel="noopener">Ana Marta Soares através do LinkedIn</a>.</p>
+      </section>
+
+      <section id="panel" hidden>
+        <div class="card">
+          <h2>Definições</h2>
+          <label class="lbl">Qualidade</label>
+          <label class="radio"><input type="radio" name="quality" value="auto" checked><span><b>Equilibrada</b>: boa precisão e maior rapidez.</span></label>
+          <label class="radio"><input type="radio" name="quality" value="max"><span><b>Máxima</b>: melhor precisão em gravações difíceis; mais lenta e com um modelo maior.</span></label>
+          <label class="radio"><input type="checkbox" id="optSpeakers" checked><span>Identificar quem está a falar</span></label>
+          <p class="muted small" id="deviceInfo"></p>
+        </div>
+
+        <div class="card" id="spkCard" hidden>
+          <h2>Oradores</h2>
+          <p class="muted small">Atribua um nome a cada orador, por exemplo Juiz, Advogado ou Testemunha. Para juntar dois oradores que são a mesma pessoa, dê-lhes o mesmo nome.</p>
+          <div id="spkList"></div>
+        </div>
+
+        <div class="card" id="outCard" hidden>
+          <h2>Exportar</h2>
+          <label class="radio"><input type="checkbox" id="optAnon"><span>Substituir os dados pessoais por XXXXX (nomes, NIF, moradas, contactos e outros)</span></label>
+          <button class="btn dark block" id="btnDocx">Descarregar em Word (.docx)</button>
+          <button class="btn block" id="btnTxt">Descarregar em texto (.txt)</button>
+          <div id="outStatus" class="status"></div>
+          <p class="muted small">A transcrição automática deve ser revista antes de ser utilizada, sobretudo nos nomes próprios, nos números e nos termos técnicos.</p>
+        </div>
+
+        <div class="card small">
+          <p class="muted" id="licInfo"></p>
+          <button class="link" id="btnDeactivate">Remover a licença deste computador</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="mark">Ana Marta Soares, Especialista em IA aplicada ao Direito · <a href="../privacidade.html">Privacidade</a> · <a href="../termos.html">Termos</a></footer>
+
+  <script src="../nacl-fast.min.js"></script>
+  <script src="../licenca.js"></script>
+  <script src="../engine.js"></script>
+  <script src="../docxutil.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

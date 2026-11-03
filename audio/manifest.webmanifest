@@ -1,0 +1,26 @@
+{
+  "name": "Cofre Transcrição",
+  "short_name": "Cofre Transcrição",
+  "description": "Transcrição local de áudio, minuto a minuto, com identificação de oradores. Ana Marta Soares, Especialista em IA aplicada ao Direito.",
+  "id": "/cofre-anonimizacao-word/audio/",
+  "start_url": "/cofre-anonimizacao-word/audio/",
+  "scope": "/cofre-anonimizacao-word/audio/",
+  "display": "standalone",
+  "background_color": "#f4f1ec",
+  "theme_color": "#1e1a18",
+  "lang": "pt-PT",
+  "icons": [
+    { "src": "icones/icone-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icones/icone-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icones/icone-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "file_handlers": [
+    { "action": "/cofre-anonimizacao-word/audio/",
+      "accept": {
+        "audio/*": [".mp3", ".m4a", ".wav", ".ogg", ".opus", ".wma", ".aac", ".flac", ".amr"],
+        "video/*": [".mp4", ".mov", ".webm", ".mkv", ".3gp"]
+      },
+      "launch_type": "single-client" }
+  ],
+  "launch_handler": { "client_mode": "navigate-new" }
+}

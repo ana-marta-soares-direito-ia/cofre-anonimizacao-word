@@ -1,0 +1,19 @@
+#work{max-width:860px;margin:0 auto}
+.prog .prog-h{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:10px}
+.prog .prog-h span{color:var(--muted);font-size:13px}
+.barwrap{height:8px;background:var(--soft);border-radius:6px;overflow:hidden}
+.barfill{height:100%;width:0;background:var(--ink);transition:width .4s}
+.prog .btn{margin-top:4px}
+.transcript{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px 34px;min-height:200px}
+.transcript:empty{display:none}
+.transcript .doc-h{font-family:"Fraunces",Georgia,serif;font-size:22px;margin:0 0 4px}
+.transcript .meta{color:var(--muted);font-size:13px;margin:0 0 18px}
+.minute{border-top:1px solid var(--line);padding:12px 0 4px}
+.minute h3{font-family:"Inter",Arial,sans-serif;font-size:12.5px;font-weight:600;letter-spacing:1.2px;color:var(--muted);margin:0 0 6px}
+.seg{margin:0 0 8px;line-height:1.6;font-family:Georgia,"Times New Roman",serif;font-size:15.5px}
+.seg .t{font-family:"Inter",Arial,sans-serif;font-size:11.5px;color:var(--muted);margin-right:8px}
+.seg .s{font-family:"Inter",Arial,sans-serif;font-weight:600;font-size:13.5px;margin-right:6px}
+.spk{display:flex;align-items:center;gap:8px;margin:6px 0}
+.spk .dot{width:10px;height:10px;border-radius:50%;flex:none}
+.spk input{flex:1}
+.spk .n{color:var(--muted);font-size:11.5px;flex:none}
