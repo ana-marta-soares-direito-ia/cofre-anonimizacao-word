@@ -85,9 +85,9 @@
       <ol>
         <li>Feche o Word (Cmd+Q).</li>
         <li>Carregue em <b>Cmd+Espaço</b>, escreva <b>Terminal</b> e carregue em Enter.</li>
-        <li>Copie a linha abaixo, cole-a no Terminal (Cmd+V) e carregue em Enter. Surge a mensagem "Instalação concluída".</li>
+        <li>Copie a linha abaixo, cole-a no Terminal (Cmd+V) e carregue em Enter. A instalação está concluída quando surgir, na linha seguinte, o nome cofre-anonimizacao.xml.</li>
       </ol>
-      <p><code id="maccmd" style="display:block;padding:10px;white-space:pre-wrap">mkdir -p ~/Library/Containers/com.microsoft.Word/Data/Documents/wef &amp;&amp; curl -fsSL https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/manifest.xml -o ~/Library/Containers/com.microsoft.Word/Data/Documents/wef/cofre-anonimizacao.xml &amp;&amp; echo "Instalação concluída."</code></p>
+      <p><code id="maccmd" style="display:block;padding:10px;white-space:pre-wrap">mkdir -p ~/Library/Containers/com.microsoft.Word/Data/Documents/wef &amp;&amp; curl -fsSL https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/manifest.xml -o ~/Library/Containers/com.microsoft.Word/Data/Documents/wef/cofre-anonimizacao.xml &amp;&amp; ls ~/Library/Containers/com.microsoft.Word/Data/Documents/wef</code></p>
       <p><button class="cta solid" style="border:0;cursor:pointer;font:inherit" onclick="navigator.clipboard.writeText(document.getElementById('maccmd').textContent).then(()=>{this.textContent='Copiado'})">Copiar a linha de instalação</button></p>
       <ol start="4">
         <li>Abra o Word e um documento, seleccione <b>Base &gt; Suplementos</b> e escolha <b>Cofre de Anonimização</b>.</li>
