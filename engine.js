@@ -366,7 +366,7 @@
       // título imediatamente anterior ("Dr. João", "Sr. Silva")
       if (a > 0) {
         var g = text.slice(toks[a - 1].e, toks[a].s);
-        if (/^\.?[  ]+$/.test(g) && TITLES.has(norm(toks[a - 1].t))) hasTitle = true;
+        if (/^\.?[  ]+$/.test(g) && TITLES.has(norm(toks[a - 1].t)) && (g.indexOf('.') < 0 || toks[a - 1].t.length <= 4)) hasTitle = true; // título por extenso seguido de ponto é fim de frase
         if (/^ª?\.?[  ]+$/.test(g) && /^(Dr|Eng|Sr|Arq|Prof|Exm|D)$/.test(toks[a - 1].t)) hasTitle = true;
       }
       // retira títulos, funções processuais e palavras de início de frase
