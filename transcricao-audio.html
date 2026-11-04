@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transcrição de audiências, depoimentos e reuniões, minuto a minuto, no próprio computador | Ana Marta Soares</title>
+<meta name="description" content="Transcreva gravações de audiências, depoimentos, reuniões com clientes e aulas, minuto a minuto e com identificação de quem fala, sem enviar o áudio para servidores externos. Exporta para Word. Licença: 130 €.">
+<link rel="canonical" href="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/transcricao-audio.html">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Ana Marta Soares">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_PT">
+<meta property="og:title" content="Cofre Transcrição">
+<meta property="og:description" content="Transcreva gravações de audiências, depoimentos, reuniões com clientes e aulas, minuto a minuto e com identificação de quem fala, sem enviar o áudio para servidores externos. Exporta para Word. Licença: 130 €.">
+<meta property="og:url" content="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/transcricao-audio.html">
+<meta property="og:image" content="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/assets/transcricao-partilha.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Cofre Transcrição", "url": "https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/transcricao-audio.html", "applicationCategory": "BusinessApplication", "operatingSystem": "Windows, macOS", "inLanguage": "pt-PT", "description": "Transcreva gravações de audiências, depoimentos, reuniões com clientes e aulas, minuto a minuto e com identificação de quem fala, sem enviar o áudio para servidores externos. Exporta para Word. Licença: 130 €.", "image": "https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/assets/transcricao-partilha.jpg", "offers": {"@type": "Offer", "price": "130", "priceCurrency": "EUR"}, "author": {"@type": "Person", "name": "Ana Marta Soares", "jobTitle": "Especialista em IA aplicada ao Direito", "url": "https://ana-marta-soares.netlify.app/", "sameAs": ["https://www.linkedin.com/in/marta-soares-direito-ia"]}}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Como transcrever a gravação de uma audiência?", "acceptedAnswer": {"@type": "Answer", "text": "Abre-se a gravação no Cofre Transcrição, que a transcreve no próprio computador, organizada por minutos e por oradores. No fim, atribui-se o nome a cada orador e descarrega-se a transcrição em Word."}}, {"@type": "Question", "name": "A gravação é enviada para algum servidor?", "acceptedAnswer": {"@type": "Answer", "text": "Não. A transcrição decorre no computador do utilizador. A gravação não é transmitida, registada nem conservada."}}, {"@type": "Question", "name": "Que formatos de ficheiro aceita?", "acceptedAnswer": {"@type": "Answer", "text": "Os formatos de áudio e de vídeo mais comuns, como MP3, M4A, WAV, OGG, AAC, FLAC, MP4, MOV e WEBM."}}, {"@type": "Question", "name": "Quanto tempo demora a transcrição?", "acceptedAnswer": {"@type": "Answer", "text": "Depende do computador e da duração da gravação. Num computador recente com o Google Chrome ou o Microsoft Edge, a transcrição usa a placa gráfica e é mais rápida."}}, {"@type": "Question", "name": "Quanto custa o Cofre Transcrição?", "acceptedAnswer": {"@type": "Answer", "text": "A licença individual custa 130 €, em pagamento único, e é adquirida a Ana Marta Soares. Após o pagamento, recebe o código de activação."}}]}]</script>
+<link rel="icon" href="audio/icones/icone-192.png">
+<style>
+@font-face{font-family:"Fraunces";src:url("fonts/fraunces-600.woff2") format("woff2");font-weight:600;font-display:swap;}
+@font-face{font-family:"Inter";src:url("fonts/inter-400.woff2") format("woff2");font-weight:400;font-display:swap;}
+@font-face{font-family:"Inter";src:url("fonts/inter-600.woff2") format("woff2");font-weight:600;font-display:swap;}
+
+  :root { --ink:#1e1a18; --muted:#5c544f; --line:#ddd4ca; --bg:#f4f1ec; --brand:#1e1a18; --brand2:#3a332f; --soft:#ece6dd; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.55; }
+  header { background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff; padding:48px 16px 56px; }
+  .wrap { max-width:880px; margin:0 auto; }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .brand img { width:56px; height:56px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,.25); }
+  h1 { margin:0; font-size:30px; line-height:1.15; }
+  header p.lead { font-size:17px; max-width:640px; opacity:.93; margin:18px 0 26px; }
+  .cta { display:inline-block; background:#fff; color:var(--brand); padding:12px 20px; border-radius:9px; font-weight:650; text-decoration:none; }
+  .cta.solid { background:var(--brand); color:#fff; }
+  .cta.ghost { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.6); margin-left:8px; }
+  main { padding:8px 16px 40px; }
+  section { background:#fff; border:1px solid var(--line); border-radius:14px; padding:24px; margin-top:20px; }
+  h2 { font-size:20px; margin:0 0 12px; color:var(--brand); }
+  h3 { font-size:15px; margin:18px 0 6px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+  .feat { background:var(--bg); border-radius:10px; padding:14px; }
+  .feat b { display:block; margin-bottom:4px; }
+  ol { padding-left:20px; margin:6px 0; } li { margin:4px 0; }
+  .tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .tabs button { font:inherit; font-size:14px; border:1px solid var(--line); background:#fff; color:var(--brand); padding:8px 12px; border-radius:8px; cursor:pointer; }
+  .tabs button.on { background:var(--brand); color:#fff; border-color:var(--brand); }
+  .pane { display:none; } .pane.on { display:block; }
+  code { background:var(--soft); color:var(--brand); padding:1px 5px; border-radius:4px; font-size:13px; word-break:break-all; }
+  .note { background:#fff4dc; color:#6b4600; border-radius:9px; padding:12px 14px; font-size:14px; margin-top:12px; }
+  .muted { color:var(--muted); }
+  footer { text-align:center; color:var(--brand); font-size:13px; padding:20px 16px 32px; }
+  @media (max-width:520px){ h1{font-size:24px} .cta.ghost{margin:10px 0 0} section{padding:18px} }
+
+  /* estilo sóbrio */
+  body { font-family:"Inter","Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; }
+  header { background:#f4f1ec !important; color:var(--ink) !important; border-bottom:1px solid var(--line); }
+  header p.lead { color:var(--muted); opacity:1; }
+  h1, h2 { font-family:"Fraunces",Georgia,serif; font-weight:600; }
+  h2 { color:var(--ink) !important; }
+  .brand img { box-shadow:none; }
+  .cta { background:var(--ink) !important; color:#fff !important; }
+  .cta.ghost { background:transparent !important; color:var(--ink) !important; border:1px solid var(--ink) !important; }
+  .tabs button { color:var(--ink); }
+  .tabs button.on { background:var(--ink); border-color:var(--ink); color:#fff; }
+  code { background:#ece6dd; color:var(--ink); }
+  a { color:var(--ink); }
+  footer { color:var(--muted); }
+  .shot { display:block; width:100%; border:1px solid var(--line); border-radius:12px; margin:6px 0 4px; }
+  .price { font-family:"Fraunces",Georgia,serif; font-size:26px; font-weight:600; margin:0 0 4px; }
+  nav.top { font-size:14px; margin-bottom:22px; } nav.top a { color:var(--muted); text-decoration:none; margin-right:14px; }
+  details { border-top:1px solid var(--line); padding:12px 0; } details:last-child { border-bottom:1px solid var(--line); }
+  summary { cursor:pointer; font-weight:600; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav class="top"><a href="./">Cofre para Word</a><a href="anonimizar-pdf.html">Cofre PDF</a><a href="transcricao-audio.html">Cofre Transcrição</a></nav>
+    <div class="brand"><img src="audio/icones/icone-192.png" alt=""><h1>Cofre Transcrição<br><span style="font-weight:400;font-size:20px">Transcrição de áudio minuto a minuto</span></h1></div>
+    <p class="lead">Transcreve gravações de audiências, depoimentos, reuniões com clientes, aulas e formações, organizadas minuto a minuto e com a identificação de quem fala. A gravação é tratada no computador do utilizador e não é enviada para qualquer servidor, o que permite transcrever conteúdos sujeitos a segredo profissional.</p>
+    <a class="cta" href="audio/">Abrir o Cofre Transcrição</a>
+    <a class="cta ghost" href="#comprar">Adquirir licença: 130 €</a>
+  </div>
+</header>
+<main class="wrap">
+  <section>
+    <img class="shot" src="assets/transcricao-captura.jpg" alt="Cofre Transcrição com a transcrição de uma inquirição de testemunha organizada por minutos e oradores" width="1400" height="840" loading="lazy">
+  </section>
+  <section>
+    <h2>O que faz</h2>
+    <div class="grid"><div class="feat"><b>Minuto a minuto</b>O texto é organizado por minutos, com a marca de tempo de cada intervenção, o que facilita a citação de passagens de um depoimento.</div><div class="feat"><b>Identificação de oradores</b>O Cofre distingue as vozes e permite atribuir um nome a cada orador, como Juiz, Advogado ou Testemunha.</div><div class="feat"><b>Gravações longas</b>Pensado para gravações de 1 a 3 horas, em MP3, M4A, WAV, vídeo MP4 e outros formatos comuns.</div><div class="feat"><b>Processamento local</b>A transcrição decorre no computador do utilizador. A gravação não é transmitida, registada nem conservada em qualquer servidor.</div><div class="feat"><b>Exporta para Word</b>Descarrega a transcrição em Word ou em texto, com a opção de substituir os dados pessoais por XXXXX.</div></div>
+    <p class="muted">A transcrição automática deve ser revista antes de ser utilizada, sobretudo nos nomes próprios, nos números e nos termos técnicos.</p>
+  </section>
+  <section id="comprar">
+    <h2>Como adquirir e começar a utilizar</h2>
+    <p class="price">130 €</p>
+    <p class="muted">Licença individual, em pagamento único.</p>
+    <ol>
+      <li>Envie mensagem a <a href="https://www.linkedin.com/in/marta-soares-direito-ia">Ana Marta Soares no LinkedIn</a>. Após o pagamento, recebe o código de licença, que começa por COFRE-.</li>
+      <li>Abra <a href="audio/">o Cofre Transcrição</a> no Google Chrome ou no Microsoft Edge e seleccione <b>Instalar no computador</b>.</li><li>Cole o código de licença e seleccione <b>Activar</b>. A activação é feita uma única vez em cada computador.</li><li>Abra a gravação. Na primeira utilização, o Cofre descarrega o modelo de transcrição, que fica guardado no computador.</li>
+    </ol>
+  </section>
+  <section id="perguntas">
+    <h2>Perguntas frequentes</h2>
+    <details><summary>Como transcrever a gravação de uma audiência?</summary><p>Abre-se a gravação no Cofre Transcrição, que a transcreve no próprio computador, organizada por minutos e por oradores. No fim, atribui-se o nome a cada orador e descarrega-se a transcrição em Word.</p></details><details><summary>A gravação é enviada para algum servidor?</summary><p>Não. A transcrição decorre no computador do utilizador. A gravação não é transmitida, registada nem conservada.</p></details><details><summary>Que formatos de ficheiro aceita?</summary><p>Os formatos de áudio e de vídeo mais comuns, como MP3, M4A, WAV, OGG, AAC, FLAC, MP4, MOV e WEBM.</p></details><details><summary>Quanto tempo demora a transcrição?</summary><p>Depende do computador e da duração da gravação. Num computador recente com o Google Chrome ou o Microsoft Edge, a transcrição usa a placa gráfica e é mais rápida.</p></details><details><summary>Quanto custa o Cofre Transcrição?</summary><p>A licença individual custa 130 €, em pagamento único, e é adquirida a Ana Marta Soares. Após o pagamento, recebe o código de activação.</p></details>
+  </section>
+</main>
+<footer><a href="privacidade.html" style="color:inherit">Política de privacidade</a> · <a href="termos.html" style="color:inherit">Termos de utilização</a><br><a href="https://ana-marta-soares.netlify.app/" style="color:inherit">Ana Marta Soares, Especialista em IA aplicada ao Direito</a> · <a href="https://ana-marta-soares.netlify.app/#ferramentas" style="color:inherit">Outras ferramentas</a></footer>
+</body>
+</html>
