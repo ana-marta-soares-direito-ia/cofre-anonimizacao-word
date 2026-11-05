@@ -16,8 +16,10 @@
   var TIPOS = { 1: 'Licença individual (Word)', 2: 'Licença de escritório (Word)', 3: 'Licença de validação (Word)',
     11: 'Licença individual (PDF)', 12: 'Licença de escritório (PDF)', 13: 'Licença de validação (PDF)',
     21: 'Licença individual (Word e PDF)', 22: 'Licença de escritório (Word e PDF)',
-    31: 'Licença individual (Transcrição)', 32: 'Licença de escritório (Transcrição)', 33: 'Licença de validação (Transcrição)' };
-  var PRODUTOS = { word: [1, 2, 3, 21, 22], pdf: [11, 12, 13, 21, 22], audio: [31, 32, 33] };
+    31: 'Licença individual (Transcrição)', 32: 'Licença de escritório (Transcrição)', 33: 'Licença de validação (Transcrição)',
+    41: 'Licença individual (Excel)', 42: 'Licença de escritório (Excel)', 43: 'Licença de validação (Excel)',
+    51: 'Licença individual (PowerPoint)', 52: 'Licença de escritório (PowerPoint)', 53: 'Licença de validação (PowerPoint)' };
+  var PRODUTOS = { word: [1, 2, 3, 21, 22], pdf: [11, 12, 13, 21, 22], audio: [31, 32, 33], excel: [41, 42, 43], powerpoint: [51, 52, 53] };
   function allows(produto, tipo) { return (PRODUTOS[produto] || []).indexOf(tipo) >= 0; }
 
   function b64ToBytes(s) {

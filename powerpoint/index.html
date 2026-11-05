@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cofre para PowerPoint</title>
+  <script>
+    window.__cofreSuportado = (function () {
+      try { new RegExp('(?<![a-z])b', 'u'); new RegExp('\\p{L}', 'u'); return typeof Promise !== 'undefined' && typeof Map !== 'undefined'; }
+      catch (e) { return false; }
+    })();
+  </script>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <link rel="stylesheet" href="../taskpane.css">
+  <link rel="stylesheet" href="../office/office.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="5" y="13" width="22" height="16" rx="3.5" fill="currentColor" opacity=".95"/>
+        <path d="M10 13V9.5a6 6 0 0 1 12 0V13" fill="none" stroke="currentColor" stroke-width="3"/>
+        <circle cx="16" cy="20" r="2.4" fill="#fff"/><rect x="15" y="21" width="2" height="4" rx="1" fill="#fff"/>
+      </svg>
+      <div><h1>Cofre para PowerPoint</h1><p class="sub">Assistente e anonimização</p></div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="assist" role="tab" aria-selected="true">Assistente</button>
+      <button class="tab" data-tab="anon" role="tab" aria-selected="false">Anonimizar</button>
+      <button class="tab" data-tab="repor" role="tab" aria-selected="false">Repor</button>
+      <button class="tab" data-tab="conta" role="tab" aria-selected="false">Conta de IA</button>
+      <button class="tab" data-tab="info" role="tab" aria-selected="false">Informação</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="unsupported" class="notice danger" hidden>Esta versão do Microsoft PowerPoint não permite executar o Cofre. É necessário o Microsoft 365 actualizado ou o PowerPoint na Web.</div>
+    <div id="outside" class="notice warn" hidden>Este painel destina-se a ser aberto dentro do Microsoft PowerPoint. Consulte as instruções de instalação.</div>
+
+    <section id="licGate" class="card" hidden>
+      <div class="step"><span class="num">🔑</span><h2>Activação da licença</h2></div>
+      <p class="muted">Para utilizar o Cofre para PowerPoint, cole o código de licença que recebeu. A activação é feita uma única vez em cada computador.</p>
+      <label class="lbl" for="licCode">Código de licença</label>
+      <textarea id="licCode" rows="4" placeholder="COFRE-..." spellcheck="false" autocomplete="off"></textarea>
+      <button id="btnActivate" class="btn primary block">Activar</button>
+      <div id="licStatus" class="status" aria-live="polite"></div>
+      <div class="notice info small">Ainda não tem licença? Contacte <a href="https://www.linkedin.com/in/marta-soares-direito-ia" target="_blank" rel="noopener">Ana Marta Soares através do LinkedIn</a>.</div>
+    </section>
+
+    <!-- ============================================ ASSISTENTE -->
+    <section id="tab-assist" class="panel active">
+      <div id="avisoConta" class="notice warn small" hidden>Para usar o assistente, ligue primeiro a sua conta Cloudflare gratuita no separador «Conta de IA».</div>
+      <div class="card">
+        <div class="step"><span class="num">1</span><h2>O que pretende?</h2></div>
+        <textarea id="instrucao" rows="4" placeholder="Por exemplo: melhora a redacção dos diapositivos, em registo jurídico, e cria um diapositivo final de conclusões."></textarea>
+        <div class="sugestoes">
+          <button class="chip-btn" data-sugestao="Melhora a redacção de todos os diapositivos, em registo jurídico, com frases curtas e claras.">Melhorar a redacção</button>
+          <button class="chip-btn" data-sugestao="Uniformiza o tipo de letra, os tamanhos e as cores de todos os diapositivos, num estilo sóbrio.">Uniformizar o estilo</button>
+          <button class="chip-btn" data-sugestao="Cria um diapositivo final com as conclusões da apresentação.">Diapositivo de conclusões</button>
+          <button class="chip-btn" data-sugestao="Faz um gráfico com os números deste diapositivo.">Gráfico</button>
+          <button class="chip-btn" data-sugestao="Transforma os pontos deste diapositivo numa tabela.">Tabela</button>
+        </div>
+        <label class="lbl" for="ambito">Dados a considerar</label>
+        <select id="ambito">
+          <option value="todos">Toda a apresentação</option>
+          <option value="seleccao">Os diapositivos seleccionados</option>
+        </select>
+        <label class="check"><input type="checkbox" id="optMascara" checked><span>Substituir os dados pessoais por etiquetas antes de enviar ao serviço de IA (recomendado)</span></label>
+        <button id="btnExecutar" class="btn primary block">Preparar</button>
+        <div id="assistStatus" class="status" aria-live="polite"></div>
+      </div>
+
+      <div id="planoCard" class="card" hidden>
+        <div class="step"><span class="num">2</span><h2>Plano proposto</h2></div>
+        <div id="resposta" class="resposta"></div>
+        <ol id="plano" class="plano"></ol>
+        <div class="row wrap">
+          <button id="btnAplicar" class="btn primary">Aplicar à apresentação</button>
+          <button id="btnDescartar" class="btn secondary">Descartar</button>
+        </div>
+        <div id="aplicarStatus" class="status" aria-live="polite"></div>
+      </div>
+      <button id="btnDesfazer" class="btn secondary block" hidden>Desfazer</button>
+      <div id="desfazerStatus" class="status" aria-live="polite"></div>
+    </section>
+
+    <!-- ============================================ ANONIMIZAR -->
+    <section id="tab-anon" class="panel">
+      <div class="card">
+        <div class="step"><span class="num">1</span><h2>Análise da apresentação</h2></div>
+        <p class="muted">A apresentação aberta é analisada neste computador. Nenhum conteúdo é enviado para servidores externos.</p>
+        <details class="cats"><summary>Categorias a detectar</summary><div id="catList" class="catlist"></div></details>
+        <button id="btnAnalyze" class="btn primary block">Analisar a apresentação</button>
+        <div id="analyzeStatus" class="status" aria-live="polite"></div>
+      </div>
+      <div id="review" class="card" hidden>
+        <div class="step"><span class="num">2</span><h2>Revisão dos elementos identificados</h2></div>
+        <p class="muted" id="reviewSummary"></p>
+        <div id="entityList" class="entities"></div>
+        <div class="addterm">
+          <label for="manualTerm" class="lbl">Acrescentar um termo não identificado</label>
+          <div class="row"><input id="manualTerm" type="text" placeholder="Por exemplo, uma alcunha ou um nome de empresa" autocomplete="off"><select id="manualType" aria-label="Categoria do termo"></select></div>
+          <button id="btnAddTerm" class="btn secondary block">Acrescentar</button>
+        </div>
+      </div>
+      <div id="applyCard" class="card" hidden>
+        <div class="step"><span class="num">3</span><h2>Substituição</h2></div>
+        <fieldset class="modes"><legend class="lbl">Modo</legend>
+          <label class="radio"><input type="radio" name="mode" value="pseudo" checked><span><b>Pseudonimização</b> (reversível). Os dados são substituídos por etiquetas, como [PESSOA_1], e é gerada a tabela de correspondências.</span></label>
+          <label class="radio"><input type="radio" name="mode" value="x"><span><b>XXXXX</b> (irreversível). Os dados são substituídos por XXXXX.</span></label>
+          <label class="radio"><input type="radio" name="mode" value="anon"><span><b>Etiquetas sem tabela</b> (irreversível).</span></label>
+        </fieldset>
+        <div class="notice info small">As substituições são feitas no texto de todos os diapositivos, mantendo a formatação. Recomenda-se que trabalhe sobre uma cópia da apresentação.</div>
+        <button id="btnApply" class="btn primary block">Aplicar à apresentação</button>
+        <div id="applyStatus" class="status" aria-live="polite"></div>
+      </div>
+      <div id="resultCard" class="card" hidden>
+        <div class="step"><span class="num ok">✓</span><h2>Resultado</h2></div>
+        <div id="resultSummary"></div>
+        <div id="tableBlock" hidden>
+          <h3>Tabela de correspondências</h3>
+          <div class="notice warn small">A tabela contém os dados originais. Guarde-a separadamente e nunca a envie com a apresentação pseudonimizada.</div>
+          <textarea id="tableText" readonly rows="8"></textarea>
+          <div class="row wrap"><button id="btnTableCopy" class="btn primary">Copiar</button><button id="btnTableDocx" class="btn secondary">Descarregar (.docx)</button></div>
+          <div id="tableStatus" class="status" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ REPOR -->
+    <section id="tab-repor" class="panel">
+      <div class="card">
+        <div class="step"><span class="num">↺</span><h2>Repor os dados originais</h2></div>
+        <p class="muted">Abra a apresentação pseudonimizada e indique a tabela de correspondências. Cada etiqueta, como [PESSOA_1], é substituída pelo dado original.</p>
+        <label class="lbl" for="tableFile">Ficheiro da tabela (.docx ou .txt)</label>
+        <input id="tableFile" type="file" accept=".docx,.txt,text/plain">
+        <label class="lbl" for="revertText">Ou cole aqui o conteúdo da tabela</label>
+        <textarea id="revertText" rows="8" placeholder="[PESSOA_1] = Nome completo&#10;[NIF_1] = 123456789"></textarea>
+        <button id="btnRevert" class="btn primary block">Repor dados na apresentação</button>
+        <div id="revertStatus" class="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ============================================ CONTA DE IA -->
+    <section id="tab-conta" class="panel">
+      <div class="card">
+        <div class="step"><span class="num">☁</span><h2>Conta de IA</h2></div>
+        <p class="muted">O assistente usa o serviço de IA da sua própria conta Cloudflare, gratuita, com uma quota diária só sua. Os dados pessoais são substituídos por etiquetas antes do envio e repostos no seu computador.</p>
+        <div id="iaEstado" class="notice small"></div>
+        <label class="lbl" for="iaConta">Identificador da conta (Account ID)</label>
+        <input id="iaConta" type="text" spellcheck="false" autocomplete="off" placeholder="32 caracteres">
+        <label class="lbl" for="iaToken">Token da API (Workers AI)</label>
+        <input id="iaToken" type="password" spellcheck="false" autocomplete="off" placeholder="Cole o token">
+        <button id="btnGuardarConta" class="btn primary block">Guardar e testar</button>
+        <button id="btnRemoverConta" class="btn secondary block">Remover a conta deste computador</button>
+        <div id="contaStatus" class="status" aria-live="polite"></div>
+        <p class="muted small">Os dados de acesso ficam guardados apenas neste computador. Siga o guia de uma página que recebeu com a licença; demora cerca de cinco minutos.</p>
+      </div>
+    </section>
+
+    <!-- ============================================ INFORMAÇÃO -->
+    <section id="tab-info" class="panel">
+      <div class="card prose">
+        <h2>Assistente</h2>
+        <p>O assistente recebe uma instrução em linguagem corrente e propõe um plano de alterações à apresentação: melhorar a redacção, criar diapositivos, uniformizar o tipo de letra e as cores, inserir gráficos, tabelas e caixas de texto. Nada é alterado antes de seleccionar «Aplicar à apresentação», e as alterações podem ser desfeitas.</p>
+        <p>Para preparar o plano, é enviado ao serviço de IA da conta Cloudflare do utilizador o texto dos diapositivos, com os dados pessoais substituídos por etiquetas. A resposta é tratada no computador do utilizador.</p>
+        <h2>Anonimização</h2>
+        <p>A análise e a substituição dos dados pessoais decorrem integralmente no computador do utilizador, sem qualquer envio. É tratado o texto das caixas de texto, dos marcadores de posição e das formas de todos os diapositivos; não são tratados o texto contido em imagens, gráficos, tabelas e objectos incorporados, nem as notas do orador.</p>
+        <h2>Limitações</h2>
+        <p>As propostas do assistente devem ser verificadas antes de serem utilizadas. A detecção de dados pessoais assenta em regras e em léxicos de nomes, pelo que a revisão da lista é indispensável.</p>
+        <h2>Licença</h2>
+        <p id="licInfo" class="muted">Sem licença activada.</p>
+        <button id="btnDeactivate" class="btn secondary" hidden>Remover a licença deste computador</button>
+        <p class="muted small" style="margin-top:12px">Versão 1.0</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mark">Ana Marta Soares, Especialista em IA aplicada ao Direito</footer>
+
+  <script src="../nacl-fast.min.js"></script>
+  <script src="../licenca.js"></script>
+  <script src="../engine.js"></script>
+  <script src="../docxutil.js"></script>
+  <script src="../office/comum.js"></script>
+  <script src="powerpoint.js"></script>
+</body>
+</html>
