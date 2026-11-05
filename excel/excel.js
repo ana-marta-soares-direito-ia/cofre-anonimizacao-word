@@ -1,5 +1,5 @@
 /*
- * Assessor para Excel: painel lateral.
+ * Cofre para Excel: painel lateral.
  * Assistente com instruções (plano de acções executado com a API do Excel, com desfazer)
  * e anonimização ou pseudonimização das células com texto, feita no computador do utilizador.
  * Ana Marta Soares, Especialista em IA aplicada ao Direito.
@@ -12,7 +12,7 @@
   /* ============================================================ arranque */
   function boot() {
     if (!window.__cofreSuportado || !E || !C) { $('unsupported').hidden = false; return; }
-    C.iniciar({ produto: 'excel', nome: 'Assessor para Excel' });
+    C.iniciar({ produto: 'excel', nome: 'Cofre para Excel' });
     bind();
     if (typeof Office === 'undefined') { $('outside').hidden = false; return; }
     Office.onReady(function (info) {
@@ -128,7 +128,7 @@
   function arred(x) { return Math.round(x * 100) / 100; }
 
   var SISTEMA = [
-    'És o Assessor para Excel, um assistente ao serviço de juristas, advogados e serviços públicos em Portugal. Recebes uma instrução e o conteúdo de uma folha de cálculo.',
+    'És o assistente do Cofre para Excel, ao serviço de juristas, advogados e serviços públicos em Portugal. Recebes uma instrução e o conteúdo de uma folha de cálculo.',
     'Respondes SEMPRE e APENAS com um objecto JSON, sem texto antes ou depois, com esta forma:',
     '{"resposta":"texto curto em português europeu para o utilizador (o que vais fazer, ou a resposta se a instrução for uma pergunta)","accoes":[...]}',
     'Acções possíveis (usa só as necessárias, no máximo 12, pela ordem de execução):',

@@ -1,5 +1,5 @@
 /*
- * Assessor para PowerPoint: painel lateral.
+ * Cofre para PowerPoint: painel lateral.
  * Assistente com instruções (melhorar textos, criar diapositivos, uniformizar o estilo, inserir gráficos,
  * tabelas e caixas de texto, com desfazer) e anonimização ou pseudonimização do texto dos diapositivos.
  * Ana Marta Soares, Especialista em IA aplicada ao Direito.
@@ -13,7 +13,7 @@
   /* ============================================================ arranque */
   function boot() {
     if (!window.__cofreSuportado || !E || !C) { $('unsupported').hidden = false; return; }
-    C.iniciar({ produto: 'powerpoint', nome: 'Assessor para PowerPoint' });
+    C.iniciar({ produto: 'powerpoint', nome: 'Cofre para PowerPoint' });
     bind();
     if (typeof Office === 'undefined') { $('outside').hidden = false; return; }
     Office.onReady(function (info) {
@@ -85,7 +85,7 @@
 
   /* ============================================================ assistente */
   var SISTEMA = [
-    'És o Assessor para PowerPoint, um assistente ao serviço de juristas, advogados, formadores e serviços públicos em Portugal. Recebes uma instrução e o conteúdo de uma apresentação: os diapositivos, numerados a partir de 1, e as formas com texto de cada um (identificador, nome, posição e tamanho em pontos, texto).',
+    'És o assistente do Cofre para PowerPoint, ao serviço de juristas, advogados, formadores e serviços públicos em Portugal. Recebes uma instrução e o conteúdo de uma apresentação: os diapositivos, numerados a partir de 1, e as formas com texto de cada um (identificador, nome, posição e tamanho em pontos, texto).',
     'O diapositivo tem ' + LARG + ' por ' + ALT + ' pontos.',
     'Respondes SEMPRE e APENAS com um objecto JSON, sem texto antes ou depois, com esta forma:',
     '{"resposta":"texto curto em português europeu para o utilizador (o que vais fazer, ou a resposta se a instrução for uma pergunta)","accoes":[...]}',
