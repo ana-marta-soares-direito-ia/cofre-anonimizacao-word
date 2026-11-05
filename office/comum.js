@@ -1,5 +1,5 @@
 /*
- * Cofre para Excel e Cofre para PowerPoint: funções comuns aos dois painéis.
+ * Cofre para Excel, PowerPoint, Outlook e Gmail: funções comuns aos painéis.
  * Licença, separadores, revisão dos dados identificados, conta de IA do utilizador,
  * pseudonimização antes do envio e pilha de desfazer.
  * Ana Marta Soares, Especialista em IA aplicada ao Direito.
@@ -39,7 +39,7 @@ window.Cofre = (function () {
   /* ---------------------------------------------------------------- licença */
   var cfg = null, estado = { licensed: false, tab: 'assist' };
   function revogadas() {
-    return fetch('../revogadas.json?t=' + Date.now(), { cache: 'no-store' })
+    return fetch(((cfg && cfg.revogadas) || '../revogadas.json') + '?t=' + Date.now(), { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : { revogadas: [] }; })
       .then(function (j) { return (j && j.revogadas) || []; })
       .catch(function () { return []; });
@@ -76,7 +76,7 @@ window.Cofre = (function () {
       setStatus('licStatus', 'A verificar…', 'busy');
       verificar(c).then(function (v) {
         if (!v.ok) { setStatus('licStatus', v.motivo, 'err'); return; }
-        if (!store(key, c)) setStatus('licStatus', 'Licença válida. Esta versão do Office não permite guardar a activação, pelo que poderá ser necessário repeti-la.', 'busy');
+        if (!store(key, c)) setStatus('licStatus', 'Licença válida. Este programa não permite guardar a activação, pelo que poderá ser necessário repeti-la.', 'busy');
         else setStatus('licStatus', '');
         $('licCode').value = '';
         setLicensed(v);
@@ -194,6 +194,8 @@ window.Cofre = (function () {
     ['coletivo', 'colectivo'], ['coletiva', 'colectiva'], ['contato', 'contacto'], ['contatos', 'contactos'],
     ['ativação', 'activação'], ['atuação', 'actuação'], ['atuar', 'actuar'], ['transação', 'transacção'], ['transações', 'transacções'],
     ['reação', 'reacção'], ['interação', 'interacção'], ['fração', 'fracção'], ['frações', 'fracções'], ['infração', 'infracção'], ['infrações', 'infracções'],
+    ['correto', 'correcto'], ['correta', 'correcta'], ['corretos', 'correctos'], ['corretas', 'correctas'], ['corretamente', 'correctamente'],
+    ['receção', 'recepção'], ['receções', 'recepções'], ['ótima', 'óptima'], ['ótimos', 'óptimos'], ['eletrónico', 'electrónico'], ['eletrónica', 'electrónica'], ['eletrónicos', 'electrónicos'],
     ['slides', 'diapositivos'], ['slide', 'diapositivo']
   ];
   function grafia(t) {
