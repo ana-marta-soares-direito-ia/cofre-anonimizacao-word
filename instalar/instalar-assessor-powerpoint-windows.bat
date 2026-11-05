@@ -1,12 +1,12 @@
 @echo off
 chcp 65001 >nul
-title Cofre para PowerPoint
+title Assessor para PowerPoint
 echo.
-echo   Cofre para PowerPoint
+echo   Assessor para PowerPoint
 echo   A instalar...
 echo.
 taskkill /IM POWERPNT.EXE >nul 2>&1
-set "DIR=%LOCALAPPDATA%\CofrePowerPoint"
+set "DIR=%LOCALAPPDATA%\AssessorPowerPoint"
 if not exist "%DIR%" mkdir "%DIR%"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Uri 'https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/powerpoint/manifest.xml' -OutFile '%DIR%\manifest.xml'"
 if not exist "%DIR%\manifest.xml" goto erro
@@ -15,7 +15,7 @@ if errorlevel 1 goto erro
 echo   Instalação concluída.
 echo.
 echo   Abra o PowerPoint. No separador Base, seleccione Suplementos
-echo   e escolha Cofre para PowerPoint. Depois, cole o seu código de licença.
+echo   e escolha Assessor para PowerPoint. Depois, cole o seu código de licença.
 echo.
 pause
 exit /b 0

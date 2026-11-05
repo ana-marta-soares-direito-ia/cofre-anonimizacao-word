@@ -168,7 +168,9 @@ window.Cofre = (function () {
   // Substitui os dados pessoais por etiquetas nos textos a enviar e repõe-nos na resposta.
   function mascara(textos, activa) {
     if (!activa) return { tapar: function (t) { return t; }, destapar: function (t) { return t; }, n: 0 };
-    var res = E.analyze(textos.filter(function (t) { return typeof t === 'string' && t; }), {});
+    var linhas = [];
+    textos.forEach(function (t) { if (typeof t === 'string' && t) t.split('\n').forEach(function (l) { if (l.trim()) linhas.push(l); }); });
+    var res = E.analyze(linhas, {});
     var ents = res.entities.filter(function (e) { return e.selected; });
     var plano = E.buildPlan(ents, { style: 'label' });
     var mapa = E.parseTable(E.buildTable(ents, {}));

@@ -1,5 +1,5 @@
 /*
- * Cofre para Outlook: adaptador do painel comum (correio.js) à API do Outlook (Office.js, Mailbox 1.1 e seguintes).
+ * Assessor para Outlook: adaptador do painel comum (correio.js) à API do Outlook (Office.js, Mailbox 1.1 e seguintes).
  * Ana Marta Soares, Especialista em IA aplicada ao Direito.
  */
 'use strict';
@@ -28,6 +28,11 @@
     return String(texto).split(/\n{2,}/).map(function (p) { return '<p style="margin:0 0 12px">' + esc(p).replace(/\n/g, '<br>') + '</p>'; }).join('');
   }
   function tipo(it) { return it.body.getTypeAsync ? asy(function (cb) { it.body.getTypeAsync(cb); }).catch(function () { return 'html'; }) : Promise.resolve('html'); }
+  function anexo(a) {
+    var tipo = String(a.attachmentType || 'file').toLowerCase(), nome = a.name || 'anexo';
+    if (tipo === 'item' && !/\.eml$/i.test(nome)) nome += '.eml';
+    return { id: tipo === 'cloud' ? null : a.id, nome: nome, tipo: tipo === 'item' ? 'message/rfc822' : (a.contentType || ''), tamanho: a.size || 0 };
+  }
   var SALTAR = { SCRIPT: 1, STYLE: 1, HEAD: 1, TITLE: 1, META: 1 };
   function nosDeTexto(d) {
     var w = d.createTreeWalker(d.body || d.documentElement, NodeFilter.SHOW_TEXT, {
@@ -37,7 +42,7 @@
   }
 
   window.CorreioHost = {
-    nome: 'Outlook', produto: 'outlook',
+    nome: 'Outlook', produto: 'outlook', titulo: 'Assessor para Outlook',
     iniciar: function () {
       return new Promise(function (res) {
         if (typeof Office === 'undefined') return res(false);
@@ -60,13 +65,13 @@
             assunto: it.subject || '', de: pessoa(it.from || it.sender),
             para: (it.to || []).map(pessoa), cc: (it.cc || []).map(pessoa),
             data: it.dateTimeCreated ? new Date(it.dateTimeCreated).toLocaleString('pt-PT') : '',
-            anexos: (it.attachments || []).filter(function (a) { return !a.isInline; }).map(function (a) { return a.name; }),
+            anexos: (it.attachments || []).filter(function (a) { return !a.isInline; }).map(anexo),
             corpo: String(t || '').replace(/\r\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim()
           };
         });
       }
       var lista = function (campo) { return it[campo] && it[campo].getAsync ? asy(function (cb) { it[campo].getAsync(cb); }).then(function (v) { return (v || []).map(pessoa); }).catch(function () { return []; }) : Promise.resolve([]); };
-      var anexos = it.getAttachmentsAsync ? asy(function (cb) { it.getAttachmentsAsync(cb); }).then(function (v) { return (v || []).filter(function (a) { return !a.isInline; }).map(function (a) { return a.name; }); }).catch(function () { return []; }) : Promise.resolve([]);
+      var anexos = it.getAttachmentsAsync ? asy(function (cb) { it.getAttachmentsAsync(cb); }).then(function (v) { return (v || []).filter(function (a) { return !a.isInline; }).map(anexo); }).catch(function () { return []; }) : Promise.resolve([]);
       var seleccao = it.getSelectedDataAsync ? asy(function (cb) { it.getSelectedDataAsync(Office.CoercionType.Text, cb); })
         .then(function (v) { return v && v.sourceProperty === 'body' && v.data && v.data.trim() ? v.data.trim() : ''; }).catch(function () { return ''; }) : Promise.resolve('');
       return Promise.all([asy(function (cb) { it.subject.getAsync(cb); }), corpo, lista('to'), lista('cc'), lista('bcc'), anexos, seleccao]).then(function (v) {
@@ -79,10 +84,11 @@
       if (todos) it.displayReplyAllForm({ htmlBody: html(texto) }); else it.displayReplyForm({ htmlBody: html(texto) });
       return Promise.resolve('Foi aberta a resposta com o texto. Reveja-a antes de enviar.');
     },
-    inserir: function (texto) {
+    inserir: function (texto, assunto) {
       var it = item();
       if (!it || !composicao(it)) return Promise.reject(new Error('Abra o rascunho em que pretende inserir o texto.'));
-      return tipo(it).then(function (t) {
+      var antes = assunto ? asy(function (cb) { it.subject.getAsync(cb); }).then(function (a) { if (!String(a || '').trim()) return asy(function (cb) { it.subject.setAsync(assunto, cb); }); }).catch(function () {}) : Promise.resolve();
+      return antes.then(function () { return tipo(it); }).then(function (t) {
         var h = t === 'html' || t === (Office.CoercionType && Office.CoercionType.Html);
         return asy(function (cb) { it.body.setSelectedDataAsync(h ? html(texto) : texto, { coercionType: h ? Office.CoercionType.Html : Office.CoercionType.Text }, cb); });
       });
@@ -109,6 +115,16 @@
       else { doc.__nos.forEach(function (n, i) { n.nodeValue = novos[i + 1]; }); corpo = '<!DOCTYPE html>' + doc.documentElement.outerHTML; }
       return asy(function (cb) { it.subject.setAsync(novos[0] || '', cb); }).then(function () {
         return asy(function (cb) { it.body.setAsync(corpo, { coercionType: doc.linhas ? Office.CoercionType.Text : Office.CoercionType.Html }, cb); });
+      });
+    },
+    obterAnexo: function (a) {
+      var it = item();
+      if (!suporta('1.8') || !it.getAttachmentContentAsync) return Promise.reject(new Error('esta versão do Outlook não permite ler o conteúdo dos anexos'));
+      return asy(function (cb) { it.getAttachmentContentAsync(a.id, cb); }).then(function (v) {
+        var f = String(v.format || '').toLowerCase();
+        if (f === 'base64') return window.Anexos.deBase64(v.content);
+        if (f === 'eml' || f === 'icalendar') return new TextEncoder().encode(v.content || '').buffer;
+        throw new Error('anexo guardado na nuvem; abra-o no OneDrive');
       });
     },
     onMudanca: function (cb) {

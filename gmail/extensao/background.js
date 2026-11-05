@@ -1,4 +1,4 @@
-// Cofre para Gmail: abre o painel lateral ao seleccionar o ícone da extensão ou o botão Cofre do Gmail.
+// Assessor para Gmail: abre o painel lateral ao seleccionar o ícone da extensão ou o botão Assessor do Gmail.
 'use strict';
 function comportamento() {
   if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(function () {});

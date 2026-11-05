@@ -8,7 +8,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>Ana Marta Soares</ProviderName>
   <DefaultLocale>pt-PT</DefaultLocale>
-  <DisplayName DefaultValue="Cofre para PowerPoint"/>
+  <DisplayName DefaultValue="Assessor para PowerPoint"/>
   <Description DefaultValue="Assistente com instruções e anonimização local de apresentações do PowerPoint. Ana Marta Soares, Especialista em IA aplicada ao Direito."/>
   <IconUrl DefaultValue="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/assets/icon-64.png"/>
@@ -80,12 +80,12 @@
         <bt:Url id="Site.Url" DefaultValue="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/powerpoint.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GetStarted.Title" DefaultValue="Cofre para PowerPoint instalado"/>
-        <bt:String id="Group.Label" DefaultValue="Cofre para PowerPoint"/>
-        <bt:String id="Button.Label" DefaultValue="Cofre"/>
+        <bt:String id="GetStarted.Title" DefaultValue="Assessor para PowerPoint instalado"/>
+        <bt:String id="Group.Label" DefaultValue="Assessor para PowerPoint"/>
+        <bt:String id="Button.Label" DefaultValue="Assessor"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="No separador Base, seleccione Cofre para abrir o painel."/>
+        <bt:String id="GetStarted.Description" DefaultValue="No separador Base, seleccione Assessor para abrir o painel."/>
         <bt:String id="Button.Tooltip" DefaultValue="Abre o assistente e a anonimização da apresentação."/>
       </bt:LongStrings>
     </Resources>

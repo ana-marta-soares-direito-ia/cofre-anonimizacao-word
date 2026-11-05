@@ -1,5 +1,5 @@
 /*
- * Cofre para Gmail: adaptador do painel comum (correio.js) ao Gmail, através do script da página (content.js).
+ * Assessor para Gmail: adaptador do painel comum (correio.js) ao Gmail, através do script da página (content.js).
  * Ana Marta Soares, Especialista em IA aplicada ao Direito.
  */
 'use strict';
@@ -20,7 +20,7 @@
     return separador().then(function (t) {
       if (!t) throw new Error('Abra o Gmail (mail.google.com) num separador.');
       return enviar(t.id, m).catch(function () {
-        // O script ainda não está na página (por exemplo, o Gmail já estava aberto quando o Cofre foi instalado)
+        // O script ainda não está na página (por exemplo, o Gmail já estava aberto quando o Assessor foi instalado)
         return chrome.scripting.executeScript({ target: { tabId: t.id }, files: ['content.js'] }).then(function () { return enviar(t.id, m); });
       });
     }).then(function (r) {
@@ -35,14 +35,19 @@
   }
 
   window.CorreioHost = {
-    nome: 'Gmail', produto: 'gmail',
+    nome: 'Gmail', produto: 'gmail', titulo: 'Assessor para Gmail',
     iniciar: function () { return Promise.resolve(!!(window.chrome && chrome.tabs && chrome.tabs.query)); },
     modo: function () { return pedir({ tipo: 'estado' }).catch(function () { return null; }); },
     lerMensagem: function () { return pedir({ tipo: 'ler' }); },
     responder: function (texto, todos) { return pedir({ tipo: 'responder', texto: texto, todos: !!todos }); },
-    inserir: function (texto) { return pedir({ tipo: 'inserir', texto: texto }); },
-    lerNos: function () { return pedir({ tipo: 'lerNos' }); },
-    escreverNos: function (novos) { return pedir({ tipo: 'escreverNos', novos: novos }); },
+    inserir: function (texto, assunto) { return pedir({ tipo: 'inserir', texto: texto, assunto: assunto || '' }); },
+    obterAnexo: function (a) {
+      return pedir({ tipo: 'anexo', url: a.id }).then(function (b64) { return window.Anexos.deBase64(b64); })
+        .catch(function (e) {
+          // alternativa: pedido feito pelo próprio painel, com a sessão do Gmail
+          return fetch(a.id, { credentials: 'include' }).then(function (r) { if (!r.ok) throw e; return r.arrayBuffer(); });
+        });
+    },
     onMudanca: function (cb) { ouvintes.push(cb); }
   };
 })();

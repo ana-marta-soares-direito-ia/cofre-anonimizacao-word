@@ -1,5 +1,5 @@
 /*
- * Cofre para Gmail: script da página do Gmail.
+ * Assessor para Gmail: script da página do Gmail.
  * Lê a conversa aberta ou o rascunho em escrita e coloca o texto aprovado pelo utilizador no rascunho.
  * Não envia nada para fora do computador: apenas responde ao painel lateral do Cofre.
  * Ana Marta Soares, Especialista em IA aplicada ao Direito.
@@ -64,7 +64,17 @@
     if (!partes.length) throw new Error('Expanda a mensagem a analisar e tente de novo.');
     var u = partes[partes.length - 1];
     var para = ultimo ? unicos(Array.prototype.map.call(ultimo.querySelectorAll('span.g2'), pessoa)) : [];
-    var anexos = unicos(Array.prototype.map.call(main.querySelectorAll('span.aV3'), texto));
+    var anexos = [], vistos = {};
+    Array.prototype.forEach.call(main.querySelectorAll('[download_url]'), function (el) {
+      var d = el.getAttribute('download_url') || '', i1 = d.indexOf(':'), i2 = d.indexOf(':', i1 + 1);
+      if (i1 < 0 || i2 < 0) return;
+      var url = d.slice(i2 + 1), nome = d.slice(i1 + 1, i2);
+      if (vistos[url]) return; vistos[url] = 1;
+      anexos.push({ id: url, nome: nome, tipo: d.slice(0, i1), tamanho: 0 });
+    });
+    Array.prototype.forEach.call(main.querySelectorAll('span.aV3'), function (el) {
+      var n = texto(el); if (n && !anexos.some(function (a) { return a.nome === n; })) anexos.push({ id: null, nome: n, tipo: '', tamanho: 0 });
+    });
     var corpo = partes.length === 1 ? u.corpo : partes.map(function (p, i) {
       return '--- Mensagem ' + (i + 1) + ' de ' + partes.length + (p.de ? ', de ' + p.de : '') + (p.data ? ', ' + p.data : '') + ' ---\n' + p.corpo;
     }).join('\n\n');
@@ -78,7 +88,7 @@
     var dest = unicos(Array.prototype.map.call(r.querySelectorAll('[email], [data-hovercard-id*="@"]'), function (el) {
       var e = el.getAttribute('email') || el.getAttribute('data-hovercard-id'); return /@/.test(e || '') ? e : '';
     }));
-    var anexos = unicos(Array.prototype.map.call(r.querySelectorAll('.vI'), texto));
+    var anexos = unicos(Array.prototype.map.call(r.querySelectorAll('.vI'), texto)).map(function (n) { return { id: null, nome: n, tipo: '', tamanho: 0 }; });
     var sel = window.getSelection(), seleccao = '';
     if (sel && sel.rangeCount && !sel.isCollapsed && ed.contains(sel.anchorNode)) seleccao = String(sel).trim();
     var assunto = s && s.value ? s.value : (conversaAberta() ? texto(conversaAberta()) : '');
@@ -127,6 +137,21 @@
       .then(function (ed) { inserirEm(ed, t); return 'Foi aberta a resposta com o texto. Reveja-a antes de enviar.'; });
   }
 
+  function paraBase64(buf) {
+    var u = new Uint8Array(buf), s = '';
+    for (var i = 0; i < u.length; i += 32768) s += String.fromCharCode.apply(null, u.subarray(i, i + 32768));
+    return btoa(s);
+  }
+  function anexo(url) {
+    if (!/^https:\/\/mail\.google\.com\//.test(url)) throw new Error('endereço de anexo inválido');
+    return fetch(url, { credentials: 'include' }).then(function (r) {
+      if (!r.ok) throw new Error('o Gmail recusou o anexo (' + r.status + ')');
+      return r.arrayBuffer();
+    }).then(function (b) {
+      if (b.byteLength > 15 * 1048576) throw new Error('anexo com mais de 15 MB');
+      return paraBase64(b);
+    });
+  }
   var SALTAR = { SCRIPT: 1, STYLE: 1 };
   function lerNos() {
     var ed = rascunhoActivo();
@@ -152,7 +177,13 @@
   var H = {
     estado: function () { return estado(); },
     ler: function () { var e = estado(); if (!e) throw new Error('Abra uma conversa ou um rascunho no Gmail.'); return e === 'composicao' ? lerRascunho() : lerConversa(); },
-    inserir: function (m) { var ed = rascunhoActivo(); if (!ed) throw new Error('Abra o rascunho em que pretende inserir o texto.'); inserirEm(ed, m.texto); return 'Texto inserido no rascunho. Reveja-o antes de enviar.'; },
+    inserir: function (m) {
+      var ed = rascunhoActivo(); if (!ed) throw new Error('Abra o rascunho em que pretende inserir o texto.');
+      var s = raiz(ed).querySelector('input[name="subjectbox"]');
+      if (m.assunto && s && !s.value.trim() && s.type !== 'hidden') { s.value = m.assunto; s.dispatchEvent(new Event('input', { bubbles: true })); s.dispatchEvent(new Event('change', { bubbles: true })); }
+      inserirEm(ed, m.texto); return 'Texto inserido no rascunho. Reveja-o antes de enviar.';
+    },
+    anexo: function (m) { return anexo(m.url); },
     responder: function (m) { return responder(m.texto, m.todos); },
     lerNos: function () { return lerNos(); },
     escreverNos: function (m) { return escreverNos(m.novos); }
@@ -177,8 +208,8 @@
   function botao() {
     if (document.getElementById('cofre-gmail-botao')) return;
     var b = document.createElement('button');
-    b.id = 'cofre-gmail-botao'; b.type = 'button'; b.title = 'Abrir o Cofre para Gmail';
-    b.textContent = 'Cofre';
+    b.id = 'cofre-gmail-botao'; b.type = 'button'; b.title = 'Abrir o Assessor para Gmail';
+    b.textContent = 'Assessor';
     b.setAttribute('style', 'position:fixed;right:18px;bottom:18px;z-index:2147483000;font:600 13px/1 system-ui,-apple-system,Segoe UI,sans-serif;background:#1e1a18;color:#f4efe6;border:0;border-radius:20px;padding:9px 16px 9px 14px;box-shadow:0 4px 14px rgba(30,26,24,.25);cursor:pointer');
     b.addEventListener('mousedown', function (e) { e.preventDefault(); });
     b.addEventListener('click', function () { try { chrome.runtime.sendMessage({ tipo: 'abrir' }); } catch (e) { /* extensão recarregada */ } });

@@ -8,7 +8,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>Ana Marta Soares</ProviderName>
   <DefaultLocale>pt-PT</DefaultLocale>
-  <DisplayName DefaultValue="Cofre para Outlook"/>
+  <DisplayName DefaultValue="Assessor para Outlook"/>
   <Description DefaultValue="Assistente de correio electrónico com protecção de dados pessoais: análise de mensagens, rascunhos de resposta e anonimização. Ana Marta Soares, Especialista em IA aplicada ao Direito."/>
   <IconUrl DefaultValue="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/assets/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/assets/icon-128.png"/>
@@ -110,8 +110,8 @@
           <bt:Url id="Taskpane.Url" DefaultValue="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/outlook/index.html"/>
         </bt:Urls>
         <bt:ShortStrings>
-          <bt:String id="Group.Label" DefaultValue="Cofre para Outlook"/>
-          <bt:String id="Button.Label" DefaultValue="Cofre"/>
+          <bt:String id="Group.Label" DefaultValue="Assessor para Outlook"/>
+          <bt:String id="Button.Label" DefaultValue="Assessor"/>
         </bt:ShortStrings>
         <bt:LongStrings>
           <bt:String id="Button.Tooltip" DefaultValue="Analisa a mensagem, prepara respostas e protege os dados pessoais."/>
@@ -186,8 +186,8 @@
           <bt:Url id="Taskpane.Url" DefaultValue="https://ana-marta-soares-direito-ia.github.io/cofre-anonimizacao-word/outlook/index.html"/>
         </bt:Urls>
         <bt:ShortStrings>
-          <bt:String id="Group.Label" DefaultValue="Cofre para Outlook"/>
-          <bt:String id="Button.Label" DefaultValue="Cofre"/>
+          <bt:String id="Group.Label" DefaultValue="Assessor para Outlook"/>
+          <bt:String id="Button.Label" DefaultValue="Assessor"/>
         </bt:ShortStrings>
         <bt:LongStrings>
           <bt:String id="Button.Tooltip" DefaultValue="Analisa a mensagem, prepara respostas e protege os dados pessoais."/>
