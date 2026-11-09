@@ -33,7 +33,7 @@
     NIPC:            { label: 'NIPC',            name: 'Números de pessoa colectiva',              priority: 8 },
     CC:              { label: 'CC',              name: 'Cartão de cidadão e bilhete de identidade', priority: 9 },
     NISS:            { label: 'NISS',            name: 'Números de segurança social',              priority: 9 },
-    PASSAPORTE:      { label: 'PASSAPORTE',      name: 'Passaportes',                              priority: 9 },
+    PASSAPORTE:      { label: 'PASSAPORTE',      name: 'Passaportes, títulos de residência e cartas de condução',                              priority: 9 },
     CEDULA:          { label: 'CEDULA',          name: 'Cédulas profissionais',                    priority: 9 },
     IBAN:            { label: 'IBAN',            name: 'IBAN e NIB',                               priority: 10 },
     EMAIL:           { label: 'EMAIL',           name: 'Endereços de correio electrónico',         priority: 10 },
@@ -53,15 +53,19 @@
   var FIRST = wordSet(
     'Abel Abílio Adão Adelino Adolfo Adriano Afonso Agostinho Aires Albano Alberto Albino Alcides Alexandre Alexandrino Alfredo Álvaro Amadeu Amândio Américo Amílcar Anacleto Anselmo António Antônio Arlindo Armando Armindo Arnaldo Artur Augusto Aurélio Baltazar Bartolomeu Belmiro Benjamim Benedito Bento Bernardino Bernardo Brás Bruno Caetano Cândido Carlos Casimiro Celestino César Cipriano Cláudio Constantino Cristiano Cristóvão Custódio Daniel Dário David Davide Delfim Diamantino Diogo Dinis Domingos Duarte Edgar Edmundo Eduardo Elias Elísio Emanuel Emídio Emílio Ernesto Estêvão Eugénio Eurico Evaristo Fabiano Fábio Fausto Feliciano Felisberto Félix Fernando Filipe Firmino Flávio Florentino Francisco Frederico Gabriel Gaspar Gervásio Gilberto Gonçalo Gregório Guilherme Gustavo Heitor Hélder Hélio Henrique Herculano Hermínio Hernâni Horácio Hugo Humberto Inácio Isaac Isaías Ismael Ivo Jacinto Jaime Jerónimo Joaquim Joel Jorge José Josué João Juliano Júlio Justino Lauro Leandro Leonardo Leonel Leopoldo Lino Lourenço Lucas Luciano Lúcio Luís Luiz Manuel Marcelo Marcelino Marco Marcos Mário Martim Mateus Matias Mauro Maximiliano Miguel Moisés Nélson Nelson Nicolau Norberto Nuno Octávio Olavo Orlando Óscar Osvaldo Pascoal Patrício Paulo Pedro Quirino Raimundo Rafael Raul Reinaldo Renato Ricardo Roberto Rodolfo Rodrigo Rogério Rolando Romeu Ronaldo Rúben Rui Salomão Samuel Sandro Sebastião Sérgio Severino Silvestre Silvino Simão Teodoro Tiago Timóteo Tomás Tomé Tristão Ulisses Valdemar Valentim Valter Walter Vasco Venâncio Vicente Victor Vítor Vitorino Wilson Xavier Zacarias Zeferino ' +
     'Enzo Kevin Edson Elton Igor Ivan Jairo Kléber Wagner Wellington Cristian Christian Michael John Peter Paul Thomas James William Robert Richard Hans Pierre Jean Ahmed Mohamed Mohammed Ali Yuri Dmitri Andrei Sergei Alex Max ' +
-    'Ada Adelaide Adélia Adriana Ágata Albertina Alda Alexandra Alice Aline Alzira Amália Amélia Ana Anabela Andreia Ângela Antónia Arminda Aurora Bárbara Beatriz Benedita Berta Bianca Branca Bruna Camila Cândida Carla Carlota Carmen Carminda Carolina Cassilda Catarina Cecília Célia Celeste Clara Clarisse Cláudia Constança Cristina Custódia Daniela Débora Deolinda Diana Dina Dora Doroteia Dulce Edite Elisa Elisabete Elsa Elvira Emília Ermelinda Estela Ester Eugénia Eva Fabiana Fernanda Filipa Filomena Flávia Florbela Francisca Gabriela Gisela Glória Graciete Guilhermina Helena Hélia Henriqueta Hermínia Hortense Idalina Inês Irene Isabel Isaura Iolanda Ivone Jaqueline Jéssica Joana Joaquina Josefa Josefina Judite Júlia Juliana Kátia Larissa Laura Leonor Lara Leopoldina Letícia Lídia Lília Liliana Lina Lúcia Luísa Luiza Luciana Lurdes Madalena Mafalda Manuela Marcela Margarida Maria Mariana Marina Marisa Marta Matilde Mélanie Michelle Mónica Natália Natércia Nádia Noémia Noémi Odete Olga Olinda Olívia Palmira Patrícia Paula Priscila Raquel Rebeca Regina Rita Rosália Rosana Rute Sabrina Salomé Sandra Sara Silvana Sílvia Simone Sofia Sónia Susana Tânia Teresa Tatiana Telma Thaís Valentina Vanda Vanessa Vera Verónica Virgínia Vitória Viviana Yara Zélia Zulmira Nathalie Sophie Anne Marie Julia Emma Kelly Cátia Catia Daniele Rosa Glória'
+    'Ada Adelaide Adélia Adriana Ágata Albertina Alda Alexandra Alice Aline Alzira Amália Amélia Ana Anabela Andreia Ângela Antónia Arminda Aurora Bárbara Beatriz Benedita Berta Bianca Branca Bruna Camila Cândida Carla Carlota Carmen Carminda Carolina Cassilda Catarina Cecília Célia Celeste Clara Clarisse Cláudia Constança Cristina Custódia Daniela Débora Deolinda Diana Dina Dora Doroteia Dulce Edite Elisa Elisabete Elsa Elvira Emília Ermelinda Estela Ester Eugénia Eva Fabiana Fernanda Filipa Filomena Flávia Florbela Francisca Gabriela Gisela Glória Graciete Guilhermina Helena Hélia Henriqueta Hermínia Hortense Idalina Inês Irene Isabel Isaura Iolanda Ivone Jaqueline Jéssica Joana Joaquina Josefa Josefina Judite Júlia Juliana Kátia Larissa Laura Leonor Lara Leopoldina Letícia Lídia Lília Liliana Lina Lúcia Luísa Luiza Luciana Lurdes Madalena Mafalda Manuela Marcela Margarida Maria Mariana Marina Marisa Marta Matilde Mélanie Michelle Mónica Natália Natércia Nádia Noémia Noémi Odete Olga Olinda Olívia Palmira Patrícia Paula Priscila Raquel Rebeca Regina Rita Rosália Rosana Rute Sabrina Salomé Sandra Sara Silvana Sílvia Simone Sofia Sónia Susana Tânia Teresa Tatiana Telma Thaís Valentina Vanda Vanessa Vera Verónica Virgínia Vitória Viviana Yara Zélia Zulmira Nathalie Sophie Anne Marie Julia Emma Kelly Cátia Catia Daniele Rosa Glória ' +
+    'Abraão Acácio Ademar Adérito Adolfo Agnelo Aníbal Antero Apolinário Aquiles Aristides Arsénio Ascenso Aníbal Avelino Belarmino Benvindo Berardo Bráulio Carlito Celso Cirilo Clemente Cosme Crispim Damião Deolindo Domingos Edmundo Egídio Eládio Eleutério Eliseu Elói Emanuel Énio Ercílio Ezequiel Fabrício Faustino Feliciano Fernão Florêncio Fortunato Franklin Gaudêncio Genésio Germano Getúlio Gil Glauco Gonçalo Graciano Guido Hamilton Higino Hilário Hipólito Honório Idálio Ilídio Isidoro Jacó Jeremias Joãozinho Jonas Jordão Juvenal Lázaro Leão Leonídio Lindolfo Lucílio Ludovico Manuel Marçal Mariano Martinho Maurício Máximo Melchior Modesto Narciso Natalino Nazário Nélio Nestor Nicolau Noé Olegário Olímpio Onofre Osório Otávio Ovídio Pancrácio Plácido Policarpo Porfírio Próspero Quintino Ramiro Remígio Rosendo Rufino Sabino Salvador Saturnino Serafim Sidónio Silvério Tadeu Tarcísio Telmo Teófilo Tibério Ubaldo Urbano Valério Vladimir Wenceslau Zacarias Alcino Alípio Aloísio Altino Amaro Ambrósio Amorim Anésio Arcanjo Arménio Artur Bento Brian Carlitos Cláudio Delmar Dimas Diogo Dionísio Eduíno Elmano Erico Erick Fabrizio Gustavo Hélvio Hernâni Ilídio Israel Jair Jefferson Jonathan Kauan Kaio Caio Kayque Kelvin Leonardo Lourival Luan Marcos Murilo Nathan Natanael Otaviano Pietro Ravi Reinaldo Robson Rodney Ruan Sidney Sílvio Tales Thiago Valdir Vinícius Wanderley Washington Wesley Willian William Yago Yuri Zeca Abdul Amadu Mamadu Braima Domingos Bubacar Lassana Cheikh Ousmane Ibrahim Mussa Adilson Ailton Arlindo Celestino Djalma Edmilson Elisângelo Evandro Gilson Ildo Joelson Nilton Valdemiro Zito ' +
+    'Adelina Adosinda Agostinha Albina Alcina Aldina Alexandrina Almerinda Amanda Ambrosina Angelina Anunciação Aparecida Arlete Assunção Áurea Belmira Benvinda Brígida Calisto Carina Carmelita Cesaltina Clementina Conceição Cremilde Crisália Delfina Dília Diamantina Domingas Dorinda Edna Eduarda Elaine Eleonora Elisabeth Elizabete Elvira Emanuela Ercília Esmeralda Estefânia Eulália Eunice Eurídice Evangelina Fátima Felismina Fernandina Flávia Florinda Fortunata Gilda Gina Graça Hermengarda Hilda Iracema Irene Isilda Ivete Jacinta Janete Jordana Jovita Juvelina Laurinda Leocádia Leontina Lucinda Ludovina Luzia Maria Marília Marlene Mercês Miquelina Mirandela Nazaré Nélia Nilza Olímpia Orquídea Otília Paulina Perpétua Piedade Purificação Quitéria Rosalina Rosário Rosinda Sameiro Sebastiana Severina Sílvia Solange Suzete Tânia Teodolinda Teodora Ulisseia Valéria Vânia Violeta Virgília Vivelinda Zita Zulmira Adriele Aline Ana Bárbara Bianca Brenda Bruna Cíntia Daiane Dayane Débora Eliane Eliana Elisângela Fabíola Franciele Gislaine Heloísa Ingrid Isabela Isabelle Jamile Jaqueline Jordana Josiane Juliane Kátia Kelly Lorena Luana Maíra Mayara Michele Milena Natasha Nayara Pâmela Poliana Rafaela Rayane Regiane Roberta Rosângela Samara Sheila Simara Stephanie Tamara Thalita Vitória Yasmin Zuleica Aminata Fatumata Mariama Djenabu Isatu Neusa Celeste Dalila Odília Gracinda Ilda Isaura Lucília Natércia Noémia Rosalinda Telma Esperança Lia Fernanda'
   );
   // nomes próprios que coincidem com palavras correntes: não iniciam, por si, um nome
   var NOSTART = wordSet('Glória Graça Luz Dores Conceição Rosário Fé Vitória Branca Clara Rosa Salvador Santiago Marco');
 
   var SURN = wordSet(
-    'Silva Santos Ferreira Pereira Oliveira Costa Rodrigues Martins Jesus Sousa Fernandes Gonçalves Gomes Lopes Marques Alves Almeida Ribeiro Pinto Carvalho Teixeira Moreira Correia Mendes Nunes Soares Vieira Monteiro Cardoso Rocha Neves Coelho Cruz Cunha Pires Ramos Reis Simões Antunes Matos Fonseca Machado Araújo Barbosa Tavares Lourenço Castro Figueiredo Azevedo Freitas Henriques Lima Miranda Batista Baptista Faria Brito Magalhães Melo Mello Morais Moura Nascimento Pinheiro Sá Sampaio Valente Vaz Xavier Abreu Amaral Andrade Barros Borges Branco Brandão Cabral Campos Carneiro Carreira Coutinho Couto Dias Duarte Esteves Farinha Franco Garcia Guerra Guerreiro Leal Leite Loureiro Macedo Maia Marinho Matias Medeiros Menezes Meneses Mota Noronha Nogueira Paiva Patrício Paixão Pacheco Quintas Queirós Rebelo Resende Santana Seabra Seixas Serrano Silveira Simão Tomé Torres Trindade Valadares Vasconcelos Veloso Viana Vidal Viegas Calado Salgado Sequeira Sobral Lobo Fontes Cordeiro Gaspar Galvão Godinho Gouveia Guimarães Jardim Lacerda Lemos Lucas Mesquita Moniz Mourão Neto Novais Pimentel Portela Prates Quaresma Rato Raposo Ventura Vilela Bastos Bettencourt Botelho Brás Bravo Caldeira Camacho Canelas Carmo Carrilho Casimiro Catarino Cerqueira Cid Dantas Domingues Estrela Falcão Feijó Félix Fialho Frade Frazão Freire Gama Grilo Inácio Janeiro Jordão Justino Leitão Louro Madeira Malheiro Mateus Medina Mendonça Moita Morgado Nobre Pais Peixoto Pestana Prata Proença Rego Sardinha Seco Sena Serra Sobreira Sottomayor Teles Toscano Vale Varela Vasques Vicente Ferraz Ramalho Rangel Ruivo Sarmento Sobrinho Fidalgo Fragoso Lamas Lança Madureira Magro Mata Pedrosa Penha Pena Pombo Quintela Relvas Salvado Semedo Tomás Vitorino Albuquerque Alvarenga Assunção Ávila Barreto Barroso Belo Bento Bezerra Cabrita Caetano Campelo Canhoto Castelo Cavaco Chaves Damas Delgado Dinis Diniz Eusébio Feio Figueira Filipe Flores Furtado Gil Graça Guedes Honorato Jacinto Laranjeira Lago Lino Malta Marçal Martinho Meira Messias Miguel Mira Natário Pardal Pedro Pegado Pimenta Quintino Rafael Romão Saldanha Salvador Sanches Serafim Soeiro Rosa Luz Rosário Conceição Paz Calado Amorim Aragão Arruda Barata Beirão Bessa Cabaço Calhau Capela Carrasco Carriço Coimbra Cortez Crespo Durão Espírito Fragata Frias Gago Garrido Gaio Gonzaga Gusmão Horta Jorge Lameiras Leão Lucena Lustosa Machado Maltez Mansos Marcelino Matoso Mexia Milheiro Mourato Neiva Ornelas Osório Palma Pato Pimentão Pinho Pinheiro Pontes Quental Rebocho Ribas Roque Rua Russo Salazar Santiago Sardo Seara Severino Taborda Tojal Valadas Valério Valverde Varejão Veiga Xisto Zagalo Antão Bernardes Brandão Carmona Coito Cotrim Fernandez Ferro Fortes Gameiro Gouveia Grácio Infante Lagos Lobato Mano Morgado Mascarenhas Nóbrega Oleiro Penedo Pessoa Pinto Pitta Raimundo Rezende Rijo Rolo Rufino Sá Santo Seixas Sotto Tenreiro Vargas Vila Vilaça Vinhas Ximenes'
+    'Silva Santos Ferreira Pereira Oliveira Costa Rodrigues Martins Jesus Sousa Fernandes Gonçalves Gomes Lopes Marques Alves Almeida Ribeiro Pinto Carvalho Teixeira Moreira Correia Mendes Nunes Soares Vieira Monteiro Cardoso Rocha Neves Coelho Cruz Cunha Pires Ramos Reis Simões Antunes Matos Fonseca Machado Araújo Barbosa Tavares Lourenço Castro Figueiredo Azevedo Freitas Henriques Lima Miranda Batista Baptista Faria Brito Magalhães Melo Mello Morais Moura Nascimento Pinheiro Sá Sampaio Valente Vaz Xavier Abreu Amaral Andrade Barros Borges Branco Brandão Cabral Campos Carneiro Carreira Coutinho Couto Dias Duarte Esteves Farinha Franco Garcia Guerra Guerreiro Leal Leite Loureiro Macedo Maia Marinho Matias Medeiros Menezes Meneses Mota Noronha Nogueira Paiva Patrício Paixão Pacheco Quintas Queirós Rebelo Resende Santana Seabra Seixas Serrano Silveira Simão Tomé Torres Trindade Valadares Vasconcelos Veloso Viana Vidal Viegas Calado Salgado Sequeira Sobral Lobo Fontes Cordeiro Gaspar Galvão Godinho Gouveia Guimarães Jardim Lacerda Lemos Lucas Mesquita Moniz Mourão Neto Novais Pimentel Portela Prates Quaresma Rato Raposo Ventura Vilela Bastos Bettencourt Botelho Brás Bravo Caldeira Camacho Canelas Carmo Carrilho Casimiro Catarino Cerqueira Cid Dantas Domingues Estrela Falcão Feijó Félix Fialho Frade Frazão Freire Gama Grilo Inácio Janeiro Jordão Justino Leitão Louro Madeira Malheiro Mateus Medina Mendonça Moita Morgado Nobre Pais Peixoto Pestana Prata Proença Rego Sardinha Seco Sena Serra Sobreira Sottomayor Teles Toscano Vale Varela Vasques Vicente Ferraz Ramalho Rangel Ruivo Sarmento Sobrinho Fidalgo Fragoso Lamas Lança Madureira Magro Mata Pedrosa Penha Pena Pombo Quintela Relvas Salvado Semedo Tomás Vitorino Albuquerque Alvarenga Assunção Ávila Barreto Barroso Belo Bento Bezerra Cabrita Caetano Campelo Canhoto Castelo Cavaco Chaves Damas Delgado Dinis Diniz Eusébio Feio Figueira Filipe Flores Furtado Gil Graça Guedes Honorato Jacinto Laranjeira Lago Lino Malta Marçal Martinho Meira Messias Miguel Mira Natário Pardal Pedro Pegado Pimenta Quintino Rafael Romão Saldanha Salvador Sanches Serafim Soeiro Rosa Luz Rosário Conceição Paz Calado Amorim Aragão Arruda Barata Beirão Bessa Cabaço Calhau Capela Carrasco Carriço Coimbra Cortez Crespo Durão Espírito Fragata Frias Gago Garrido Gaio Gonzaga Gusmão Horta Jorge Lameiras Leão Lucena Lustosa Machado Maltez Mansos Marcelino Matoso Mexia Milheiro Mourato Neiva Ornelas Osório Palma Pato Pimentão Pinho Pinheiro Pontes Quental Rebocho Ribas Roque Rua Russo Salazar Santiago Sardo Seara Severino Taborda Tojal Valadas Valério Valverde Varejão Veiga Xisto Zagalo Antão Bernardes Brandão Carmona Coito Cotrim Fernandez Ferro Fortes Gameiro Gouveia Grácio Infante Lagos Lobato Mano Morgado Mascarenhas Nóbrega Oleiro Penedo Pessoa Pinto Pitta Raimundo Rezende Rijo Rolo Rufino Sá Santo Seixas Sotto Tenreiro Vargas Vila Vilaça Vinhas Ximenes ' +
+    'Abrantes Alcântara Alho Almada Alpoim Ameixa Anjos Antas Aranha Arcanjo Arouca Assis Avelar Azevedo Bacelar Baião Balsemão Bandeira Barbas Barradas Barreiros Barroca Belchior Beja Belém Bernardo Bivar Boaventura Bonito Brites Brito Bulhões Cabeças Cabral Cachola Caeiro Calheiros Calixto Câmara Caminha Canário Cancela Cardeal Carlos Carrapiço Carrilho Carvalhal Casaca Casanova Cascão Castanheira Castilho Cavaleiro Cerdeira Chagas Charrua Chora Cid Coentro Colaço Condeço Cordovil Corte-Real Cosme Covas Cristóvão Cunhal Custódio Damasceno Dionísio Domingos Dores Encarnação Esperança Espinho Espinosa Évora Fagundes Falcato Faustino Fazenda Felgueiras Fernão Ferrão Figo Florindo Fragoso Franca Freixo Gadelha Galego Garcês Garção Gião Girão Gomide Graça Granja Gravato Guerreiro Guilherme Hilário Ilhéu Jacques Jerónimo Junqueira Lages Lampreia Lapa Leandro Leiria Lencastre Lima Lisboa Lopo Lobão Loureiro Lousada Lucas Macieira Malhão Mamede Manso Marujo Matta Meireles Melancia Mendanha Mesquita Mestre Milho Mimoso Miranda Mirra Moital Monção Monsanto Montalvão Moreno Mortágua Mosqueira Murta Nabais Narciso Natal Nazaré Nóbrega Nogueira Nora Oliveira Ourique Paiva Palmeira Pancada Pardal Parreira Passos Pato Pedroso Peres Pericão Pessanha Picão Piedade Pimentel Pinhal Pinto Piteira Poças Prazeres Prego Queiroz Quintanilha Quintão Rabaça Ramires Rebordão Redondo Reina Ribeiro Rijo Rocha Romeiro Roriz Rosado Rosas Sacramento Sacadura Salema Salgueiro Samouco Sanches Santarém Saraiva Sarzedas Sequeira Serôdio Silvestre Simas Soares Sobral Tamagnini Tapadas Tavares Teodoro Tinoco Trancoso Travassos Trigo Valadão Vale Valentim Varanda Ventura Vidigal Vilar Viveiros Zuzarte Zwick Cabaço Caldas Canhão Capucho Carapinha Carola Casqueiro Chambel Cotovio Cristo Damásio Dourado Fanha Ferrinho Furão Gaivoto Galhardo Godinho Gordo Grosso Leonardo Machadinho Madaleno Marcos Mascate Mendes Moura Murteira Paciência Patinha Pereirinha Perdigão Pescada Picado Pinguinha Raminhos Rasquinho Rebola Rodas Sabino Saldanha Serrão Simplício Sousa Tabaco Teotónio Tomaz Trovão Valgode Vasco Xavier Zambujo'
   );
-  ['porto', 'evora', 'sintra', 'lisboa', 'braga', 'coimbra'].forEach(function (w) { SURN.delete(w); });
+  ['porto', 'evora', 'sintra', 'lisboa', 'braga', 'coimbra', 'leiria', 'beja', 'santarem', 'belem', 'nazare', 'monsanto', 'lousada', 'felgueiras', 'espinho', 'trancoso', 'caminha', 'moncao', 'ourique', 'mortagua', 'arouca'].forEach(function (w) { SURN.delete(w); });
+  FIRST.delete('mirandela');
 
   var TITLES = wordSet(
     'Sr Sra Srª Senhor Senhora Dr Dra Drª Doutor Doutora Eng Engª Engenheiro Engenheira Arq Arqª Arquitecto Arquiteto Arquitecta Arquiteta Prof Profª Professor Professora D Dª Dona Exmo Exma Exmª Exmos Exmas Ilmo Ilma Excelentíssimo Excelentíssima Mestre Coronel Major Capitão Tenente Alferes Sargento Cabo General Brigadeiro Almirante Comandante Comodoro Padre Pe Frei Irmã Madre'
@@ -73,11 +77,22 @@
     'A O As Os Ao Aos À Às No Na Nos Nas Pelo Pela Pelos Pelas Um Uma Este Esta Estes Estas Esse Essa Aquele Aquela Cujo Cuja Que Se Em Com Por Para Entre Sobre Contra Mas Assim Ainda Também Depois Antes Quando Porque Pois Logo Então Também Nem Ou Já Até Desde Segundo Conforme Atento Atenta Visto Vista Termos Nestes Nesses Neste Nesse Nesta Nessa Dado Dada Face Sendo Tendo Mais Menos Muito Cada Todos Todas Tal Tais Sua Seu Suas Seus Sr Sra Exmo Exma Doc Docs Documento Anexo Assinado Assinatura Junta Juntam Requer Requerem Vem Vêm Nota Data Local Lugar Hoje Ex Exa Excelência Mui Digníssimo Digníssima Douto Douta Sociedade Empresa Firma Entidade Denominada Denominado Designada Designado'
   );
   var BLOCK = wordSet(
-    'Tribunal Tribunais Juízo Juízos Supremo Ministério Câmara Junta Assembleia Conservatória Cartório Hospital Centro Escola Universidade Faculdade Instituto Direcção Direção Autoridade Agência Banco Caixa Código Lei Leis Decreto Portaria Regulamento Artigo Artigos Estado República Região Município Freguesia Concelho Comarca Distrito Igreja Santa Santo São Nossa Rua Avenida Praça Largo Travessa Estrada Alameda Polícia Guarda Serviço Serviços Secretaria Gabinete Conselho Comissão Ordem Associação Fundação Federação Sindicato Partido Governo Europa União Portugal Lisboa Porto Coimbra Braga Faro Setúbal Aveiro Leiria Madeira Açores Constituição Directiva Diretiva Regulamento Acórdão Sentença Despacho Petição Contestação Réplica Recurso Processo Proc Exmo Exma Senhoria Excelência Plataforma Programa Plano Projecto Projeto Fundo Agrupamento Tesouraria Finanças Autoridade Segurança Social Inspecção Inspeção Comando Esquadra Posto Quartel Paróquia Casa Palácio Museu Teatro Parque Jardim Mercado Edifício Torre Bloco Loja Sala Piso Andar'
+    'Tribunal Tribunais Juízo Juízos Supremo Ministério Câmara Junta Assembleia Conservatória Cartório Hospital Centro Escola Universidade Faculdade Instituto Direcção Direção Autoridade Agência Banco Caixa Código Lei Leis Decreto Portaria Regulamento Artigo Artigos Estado República Região Município Freguesia Concelho Comarca Distrito Igreja Santa Santo São Nossa Rua Avenida Praça Largo Travessa Estrada Alameda Polícia Guarda Serviço Serviços Secretaria Gabinete Conselho Comissão Ordem Associação Fundação Federação Sindicato Partido Governo Europa União Portugal Lisboa Porto Coimbra Braga Faro Setúbal Aveiro Leiria Madeira Açores Constituição Directiva Diretiva Regulamento Acórdão Sentença Despacho Petição Contestação Réplica Recurso Processo Proc Exmo Exma Senhoria Excelência Plataforma Programa Plano Projecto Projeto Fundo Agrupamento Tesouraria Finanças Autoridade Segurança Social Inspecção Inspeção Comando Esquadra Posto Quartel Paróquia Casa Palácio Museu Teatro Parque Jardim Mercado Edifício Torre Bloco Loja Sala Piso Andar Direito Direitos Civil Penal Cível Criminal Comercial Administrativo Administrativa Fiscal Tributário Trabalho Justiça Factos Facto Matéria Pedido Pedidos Valor Prova Provas Prazo Prazos Custas Taxa Comarca Instância Relação Nif Nipc Niss Iban Nib Swift Bic Email Telefone Telemóvel Telemovel Morada Moradas Nome Nomes Assinatura Assinaturas Naturalidade Nacionalidade Profissão Constitucional Europeu Europeia Nacional Regional Municipal Geral Pública Público Lda Limitada'
   );
   var PLACES = phraseSet(
     'Castelo Branco|Viana do Castelo|Viana do Alentejo|Figueira da Foz|Figueira de Castelo Rodrigo|Paços de Ferreira|Ferreira do Zêzere|Ferreira do Alentejo|Santiago do Cacém|Miranda do Douro|Miranda do Corvo|Oliveira de Azeméis|Oliveira do Bairro|Oliveira do Hospital|Oliveira de Frades|Castelo de Vide|Castelo de Paiva|Marco de Canaveses|Póvoa de Varzim|Póvoa de Lanhoso|Vila Franca de Xira|Vila Nova de Gaia|Torres Vedras|Torres Novas|Santa Maria da Feira|São João da Madeira|Martim Moniz|Vasco da Gama|Afonso Henriques|Fernando Pessoa|Gil Vicente|Duarte Pacheco|Costa da Caparica|Vila Real|Fontes Pereira de Melo|Sá da Bandeira|Gomes Freire|Alves Redol|Rodrigues Sampaio|Almeida Garrett|Lourenço Marques|Serra da Estrela|Campo de Ourique|Ribeira Grande|Salvador da Bahia|Rio de Janeiro|Belo Horizonte|Porto Alegre|Mira Sintra|Pinhal Novo|Mafra|Ponte de Lima|Ponte da Barca|Arcos de Valdevez|Lagoa|Sobral de Monte Agraço|Salvaterra de Magos|Marinha Grande|Alcácer do Sal|Reguengos de Monsaraz|Montemor-o-Novo|Montemor-o-Velho|Vendas Novas|Vila do Conde|Moura|Serpa|Barreiro|Seixal|Almada|Amadora|Odivelas|Loures|Cascais|Oeiras|Sintra'
   );
+
+  // palavras correntes que, com maiúscula, não constituem nomes de pessoas (títulos de peças, cabeçalhos, início de frase)
+  var COMMON = wordSet(
+    'Acção Ação Acórdão Acresce Actos Atos Acto Ato Alegações Alínea Alíneas Anexo Anexos Apenso Apensos Aplicação Assinatura Assunto Atendendo Atento Audiência Auto Autos Aviso Caso Causa Cláusula Cláusulas Conclusão Conclusões Condições Consequentemente Considerando Contrato Contratos Contudo Cumprimentos Data Decisão Declaração Deferimento Demais Depósito Desta Deste Dispositivo Documento Documentos Efeitos Elementos Enquadramento Entretanto Exposição Fundamentação Fundamentos Igualmente Importa Inicial Introdução Juntam Junte Juntos Legal Legislação Local Mandato Mediante Motivos Nesse Neste Nestes Nota Notas Notificação Objecto Objeto Observações Ora Outrossim Parte Partes Pede Pedem Petição Ponto Pontos Porém Portanto Preâmbulo Primeira Primeiro Procuração Prova Questão Questões Razões Recurso Referência Relatório Requerimento Resposta Resumo Segunda Segundo Sentença Síntese Sumário Termos Terceira Terceiro Testemunhal Documental Pericial Todavia Valor Vem Vêm Vide Vistos Apreciando Cumpre Decidindo Decide Determina Notifique Registe Custas Dispensa Cabe Tanto Sem Sob Tudo Nada Outro Outra Outros Outras Algum Alguma Nenhum Nenhuma Qualquer Quanto Qual Quais Onde Como Porquê Sim Não Até Após Durante Excelentíssimo Excelentíssima Meritíssimo Meritíssima Senhor Senhora Doutor Doutora Exmo Exma Atenciosamente Obrigado Obrigada Sendo Tendo Havendo Visto Vista Juiz Juíza Mandatário Mandatária Advogado Advogada Cliente Clientes Contribuinte Residente Morada Nome Nacionalidade Profissão Estado Natural Telefone Telemóvel Email Correio Electrónico Eletrónico Fax Identificação Cartão Cidadão Validade Emissão Número Passaporte Título Residência Autorização Pessoa Pessoas Singular Colectiva Coletiva Empresa Sociedade Cartório Notarial Escritura Habilitação Herança Herdeiros Partilha Doação Compra Venda Arrendamento Arrendatário Senhorio Renda Rendas Fiança Hipoteca Penhora Execução Embargos Oposição Insolvência Divórcio Regulação Responsabilidades Parentais Alimentos Guarda Menor Menores Família Casamento Regime Bens Comunhão Separação Adquiridos Inventário Herança Testamento Procuradoria Ministério Público Polícia Judiciária Segurança Social Finanças Tributária Aduaneira Conservatória Registo Predial Comercial Automóvel Civil Matriz Artigo Fracção Fração Prédio Urbano Rústico Misto Freguesia Concelho Distrito Lote Andar Esquerdo Direito Frente Rés Chão Cave Sótão Garagem Arrecadação Logradouro Quintal Anexo Moradia Apartamento Habitação Comércio Serviços Indústria Armazém Escritório Loja Pagamento Pagamentos Factura Fatura Recibo Recibos Montante Quantia Euros Juros Moratórios Compensatórios Indemnização Danos Patrimoniais Morais Prejuízos Lucros Cessantes Despesas Honorários Encargos Total Subtotal Iva Retenção Fonte Segue Seguem Atenção Importante Urgente Confidencial Página Folha Índice Capítulo Secção Secção Título Livro Parte Geral Especial Disposições Finais Transitórias Gerais Comuns Preliminares Requerente Requerido Requerida Autor Autora Réu Ré Executado Exequente Arguido Arguida Testemunha Testemunhas Ofendido Assistente Recorrente Recorrido Lesado Interveniente Outorgante Outorgantes Promitente Comprador Vendedor Mutuante Mutuário Fiador Credor Devedor Insolvente Administrador Gerente Sócio Sócios Presidente Vogal Vogais Secretário Tesoureiro Director Diretor Directora Diretora Chefe Técnico Técnica Superior Assistente Operacional Coordenador Coordenadora Responsável Encarregado Encarregada Inspector Inspetor Agente Militar Sargento Soldado Comandante Enfermeiro Enfermeira Médico Médica Professor Professora Engenheiro Engenheira Arquitecto Arquiteto Economista Contabilista Consultor Consultora Jurista Solicitador Solicitadora Notário Notária Conservador Conservadora Oficial Escrivão Escrivã Funcionário Funcionária Trabalhador Trabalhadora Empregador Entidade Empregadora Patronal Sindicato Junta Câmara Assembleia Governo República Portuguesa Português Portuguesa Europeia União Comissão Conselho Parlamento Tribunal Juízo Supremo Constitucional Contas Administrativo Fiscal Central Relação Lisboa Porto Coimbra Évora Guimarães Braga Faro Setúbal Sintra Cascais Oeiras Amadora Loures Almada Seixal Barreiro Odivelas Mafra Leiria Santarém Viseu Aveiro Bragança Beja Portalegre Castelo Branco Guarda Vila Real Viana Funchal Ponta Delgada Angra Horta Janeiro Fevereiro Março Abril Maio Junho Julho Agosto Setembro Outubro Novembro Dezembro Segunda Terça Quarta Quinta Sexta Sábado Domingo Feira Euro Euros Lda Limitada Unipessoal Anónima Sociedade Advogados Comércio Construções Imobiliária Investimentos Consultoria Gestão Serviços Transportes Restaurante Café Hotel Clínica Farmácia Escola Colégio Universidade Faculdade Instituto Banco Caixa Geral Depósitos Seguros Companhia Grupo Holding Associação Fundação Cooperativa Misericórdia Santa Casa Paróquia Igreja Hospital Centro Saúde Social Lar Creche Jardim Infância Primária Secundária Básica Agrupamento Direcção Direção Regional Distrital Municipal Nacional Internacional Norte Sul Este Oeste Centro Alentejo Algarve Minho Douro Trás Montes Beira Ribatejo Estremadura Madeira Açores Brasil Angola Moçambique Cabo Verde Guiné Bissau São Tomé Príncipe Timor Macau Espanha França Alemanha Itália Reino Unido Inglaterra Estados Unidos América Suíça Luxemburgo Bélgica Holanda Lei Leis Decreto Portaria Despacho Regulamento Directiva Diretiva Código Constituição Estatuto Convenção Tratado Carta Protocolo Acordo Contrato Aviso Circular Ofício Parecer Informação Proposta Deliberação Acta Ata Minuta Modelo Formulário Requisição Certidão Certificado Atestado Licença Alvará Autorização Declaração Comprovativo Requerimento Reclamação Queixa Participação Denúncia Inquérito Acusação Pronúncia Instrução Julgamento Recurso Apelação Revista Agravo Reclamação Arguição Nulidade Anulação Impugnação Providência Cautelar Procedimento Processo Processos Diligência Citação Notificação Mandado Penhora Arresto Arrolamento Embargo Sentença Acórdão Despacho Saneador Decisão Juízo Conclusão Termo Termos Data Lugar Hora Dia Mês Ano Anos Dias Meses Horas Minutos Euro Valor Quantia Preço'
+  );
+  // funções processuais e contratuais que, imediatamente antes de um nome, o identificam como pessoa
+  var PARTY = wordSet('Autor Autora Autores Autoras Ré Réu Rés Réus Requerente Requerentes Requerido Requerida Requeridos Requeridas Exequente Executado Executada Executados Arguido Arguida Arguidos Testemunha Testemunhas Recorrente Recorrido Recorrida Embargante Embargado Embargada Assistente Ofendido Ofendida Interveniente Menor Cliente Trabalhador Trabalhadora Senhorio Senhoria Arrendatário Arrendatária Inquilino Inquilina Comprador Compradora Vendedor Vendedora Mutuante Mutuário Mutuária Promitente Outorgante Outorgantes Herdeiro Herdeira Herdeiros Cônjuge Falecido Falecida Inventariado Inventariada Insolvente Credor Credora Devedor Devedora Fiador Fiadora Participante Denunciante Denunciado Denunciada Lesado Lesada Sinistrado Sinistrada Segurado Segurada Beneficiário Beneficiária Mandatário Mandatária Advogado Advogada Solicitador Solicitadora Gerente Sócio Sócia Administrador Administradora Cabeça Progenitor Progenitora Pai Mãe Filho Filha Neto Neta Avô Avó Tio Tia Sobrinho Sobrinha Primo Prima Irmão Irmã Marido Mulher Esposa Esposo Companheiro Companheira Requerente Vítima Utente Doente Paciente Aluno Aluna Formando Formanda Candidato Candidata Funcionário Funcionária Colaborador Colaboradora Titular Proprietário Proprietária Condómino Condómina Representante Procurador Procuradora');
+  // contexto que, antes de uma sequência com maiúsculas, indica tratar-se de pessoa
+  var RE_CTX_BEFORE = /(?:\bnome(?:\s+completo)?|\bassinad[oa]s?\s*(?:por)?|\bassinatura|\bcontra|\bfilh[oa]s?\s+de|\bnet[oa]s?\s+de|\be\s+de|\btestemunhas?|\boutorgantes?|\bherdeir[oa]s?|\bmandatari[oa]|\badvogad[oa]|\brepresentad[oa]s?\s+por|\bna\s+pessoa\s+de|\bconjuge|\bcasad[oa]\s+com|\bviuv[oa]\s+de|\bunid[oa]\s+de\s+facto\s+com|\bidentificad[oa]s?\s+como|\bsr[as]?\.?|\bdr[as]?\.?|\bexm[oa]s?\.?|\bd\.|\bdona|\bfalecid[oa]|\bpor\s+obito\s+de|\binventariad[oa]|\bem\s+nome\s+de|\ba\s+favor\s+de|\bpertencente\s+a|\bpropriedade\s+de|\bcom\s+o\s+nome|\bde\s+nome|\bchamad[oa]|\bdenominad[oa]|\bsegurad[oa]|\bsinistrad[oa]|\bvitima|\bdoente|\butente|\bpaciente|\bmenor|\bprogenitor[a]?|\bpai|\bmae|\bmarido|\bmulher|\besposa|\bcompanheir[oa]|\btitular|\bproprietari[oa]|\binquilin[oa]|\barrendatari[oa]|\bsenhori[oa]|\bfiador[a]?|\bgerente|\bsoci[oa]|\badministrador[a]?|\bdeclarante|\bparticipante|\bdenunciante|\bofendid[oa]|\barguid[oa]|\bdestinatari[oa]|\bremetente|\bexpedidor|\bcontraente|\bpromitente|\bcomprador[a]?|\bvendedor[a]?|\bmutuari[oa]|\bmutuante)\s*[:.,;]?\s*(?:\(?\d{1,2}[.)º]?\)?\s*)?$/;
+  // contexto que, depois de uma sequência com maiúsculas, indica tratar-se de pessoa
+  var RE_CTX_AFTER = /^\s*[,(\-–]?\s*(?:solteir|casad|divorciad|viuv|separad|maior|menor|natural\s+d|naturalidade|residente|resident|domiciliad|com\s+domicilio|morador|portador|titular\s+d|contribuinte|nif\b|n\.?\s?i\.?\s?f|nascid|data\s+de\s+nascimento|de\s+nacionalidade|nacionalidade|filh[oa]\s+de|profissao|empregad|reformad|aposentad|desempregad|estudante|advogad|com\s+cedula|cedula|cc\b|c\.\s?c\.|cartao\s+de\s+cidadao|bilhete\s+de\s+identidade|bi\b|b\.\s?i\.|com\s+o\s+n|unid[oa]\s+de\s+facto|em\s+uniao|que\s+tambem\s+usa|tambem\s+conhecid|adiante\s+designad|doravante|e\s+mulher|e\s+marido|e\s+esposa|e\s+cônjuge|e\s+conjuge|\d{1,3}\s+anos|de\s+\d{1,3}\s+anos)/;
   var CONN = wordSet('de da do dos das e del van von der den di du la le y');
   var MONTHS = wordSet('Janeiro Fevereiro Março Abril Maio Junho Julho Agosto Setembro Outubro Novembro Dezembro');
 
@@ -122,11 +137,11 @@
   var RE_EMAIL = /[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/g;
   var RE_IBAN = /(?<![A-Za-z0-9])([A-Z]{2}\d{2}(?:[ ]?[A-Z0-9]{4}){2,7}(?:[ ]?[A-Z0-9]{1,3})?)(?![A-Za-z0-9])/g;
   var RE_NIB = /(?<!\d[ .]?)(\d{4}[ .]?\d{4}[ .]?\d{11}[ .]?\d{2})(?![ .]?\d)/g;
-  var RE_NUM9 = /(?<![\d+])(?<!\d[ .])((?:\+|00)351[ ]?)?([1-9](?:[ .]?\d){8})(?![ .]?\d)/g;
+  var RE_NUM9 = /(?<![\d+])(?<!\d[ .\-])((?:\+|00)351[ ]?)?([1-9](?:[ .\-]?\d){8})(?![ .\-]?\d)/g;
   var RE_NISS = /(?<![\d+])(?<!\d[ .])([12](?:[ .]?\d){10})(?![ .]?\d)/g;
   var RE_CC = /(?<![A-Za-z0-9])(\d{8}[ ]?\d[ ]?[A-Z0-9]{2}\d)(?![A-Za-z0-9])/g;
   var RE_IDCTX = new RegExp('(?:bilhete de identidade|cart[ãa]o de cidad[ãa]o|identifica[çc][ãa]o civil|documento de identifica[çc][ãa]o|(?<![' + LET + '])B\\.?\\s?I\\.?|(?<![' + LET + '])C\\.\\s?C\\.|(?<![' + LET + '])CC)\\s*(?:n\\.?\\s*[º°o]\\.?|n[º°]|n[úu]mero)?\\s*[:.]?\\s*(\\d{6,9}(?:[ ]?\\d(?:[ ]?[A-Z0-9]{2}\\d)?)?)(?![A-Za-z0-9])', 'gi');
-  var RE_PASS = /passaporte\s*(?:n\.?\s*[º°o]\.?|n[º°]|n[úu]mero)?\s*[:.]?\s*([A-Z]{1,2}\d{6,8}|\d{8,9})(?![A-Za-z0-9])/gi;
+  var RE_PASS = /(?:passaporte|t[íi]tulo de resid[êe]ncia|autoriza[çc][ãa]o de resid[êe]ncia|cart[ãa]o de resid[êe]ncia|carta de condu[çc][ãa]o|licen[çc]a de condu[çc][ãa]o)\s*(?:n\.?\s*[º°o]\.?|n[º°]|n[úu]mero)?\s*[:.]?\s*([A-Z]{1,3}[\-\s]?\d{5,10}(?:[\-\s]?\d)?|\d{5,10}|(?=[A-Z]*\d)[A-Z0-9]{6,12})(?![A-Za-z0-9])/gi;
   var RE_CED1 = /c[ée]dula profissional\s*(?:n\.?\s*[º°o]\.?|n[º°]|n[úu]mero)?\s*[:.]?\s*(\d{2,6}\s?[A-Za-z]?(?:-[A-Za-z])?)(?![A-Za-z0-9])/gi;
   var RE_CED2 = /(?<![A-Za-z])C\.?\s?P\.?\s*(?:n\.?\s*[º°o]\.?|n[º°])\s*[:.]?\s*(\d{2,6}\s?[A-Za-z]?(?:-[A-Za-z])?)(?![A-Za-z0-9])/g;
   var RE_MATR = /(?<![A-Za-z0-9])(?:[A-Z]{2}-\d{2}-\d{2}|\d{2}-[A-Z]{2}-\d{2}|\d{2}-\d{2}-[A-Z]{2}|[A-Z]{2}-\d{2}-[A-Z]{2})(?![A-Za-z0-9])/g;
@@ -249,7 +264,10 @@
       else if (iF > iT) type = /^[56]/.test(d) ? 'NIPC' : 'NIF';
       else if (iT > iF && /^[29]/.test(d)) type = 'TELEFONE';
       else if (nifValid(d)) type = /^[56]/.test(d) ? 'NIPC' : 'NIF';
-      else if (/^[29]/.test(d) && /^\S+$/.test(m[2].replace(/ /g, '')) ) type = 'TELEFONE';
+      else if (/^\s*[(\-–,]?\s*(?:nif|nipc|n\.?\s?i\.?\s?f|contribuinte)/.test(norm(after))) type = /^[56]/.test(d) ? 'NIPC' : 'NIF';
+      else if (/^[29]/.test(d)) type = 'TELEFONE';
+      // qualquer outro número de nove algarismos é tratado como número de identificação
+      else type = /^[56]/.test(d) ? 'NIPC' : 'NIF';
       if (type) push(out, type, text, s, e);
     });
 
@@ -344,6 +362,7 @@
     }
     function capLike(i) { return isCapTok(toks[i].t) || isInitial(i); }
 
+    var outStart = out.length;
     var i = 0;
     while (i < toks.length) {
       if (!capLike(i)) { i++; continue; }
@@ -366,6 +385,31 @@
       evaluateRun(i, last);
       i = last + 1;
     }
+    // enumerações de nomes ("Ermelinda, Belarmino e Custódia Pais"): os nomes isolados junto de uma pessoa identificada
+    var tokAt = new Map(); toks.forEach(function (t, k) { tokAt.set(t.s, k); });
+    var found = out.slice(outStart).filter(function (m) { return m.type === 'PESSOA'; });
+    var taken = function (k) { return out.some(function (m) { return m.type === 'PESSOA' && toks[k].s < m.end && m.start < toks[k].e; }); };
+    var single = function (k) {
+      if (k < 0 || k >= toks.length) return false;
+      var t = toks[k].t, n = norm(t);
+      if (!isCapTok(t) || t.length < 3 || BLOCK.has(n) || MONTHS.has(n) || ROLES.has(n) || PARTY.has(n) || LEAD_STOP.has(n) || TITLES.has(n) || NOSTART.has(n)) return false;
+      return FIRST.has(n) || SURN.has(n) || !COMMON.has(n);
+    };
+    var sep = function (k) { var g = text.slice(toks[k].e, toks[k + 1].s); return /^\s*,\s*$/.test(g) || /^\s+$/.test(g) && norm(toks[k + 1].t) === 'e'; };
+    found.forEach(function (m) {
+      var ka = tokAt.get(m.start); if (ka == null) return;
+      var k = ka - 1;
+      while (k >= 0) {
+        var kk = k;
+        if (norm(toks[kk].t) === 'e' && /^\s+$/.test(text.slice(toks[kk].e, toks[kk + 1].s))) kk--;
+        else if (!/^\s*,\s*$/.test(text.slice(toks[kk].e, toks[kk + 1].s))) break;
+        if (kk < 0 || !single(kk) || taken(kk)) break;
+        var gapAfter = text.slice(toks[kk].e, toks[kk + 1].s);
+        if (!/^\s*,?\s*$/.test(gapAfter)) break;
+        out.push({ type: 'PESSOA', start: toks[kk].s, end: toks[kk].e, text: toks[kk].t, content: [norm(toks[kk].t)], hasTitle: false, verify: false });
+        k = kk - 1;
+      }
+    });
 
     function evaluateRun(a, b) {
       var hasTitle = false;
@@ -373,12 +417,15 @@
       if (a > 0) {
         var g = text.slice(toks[a - 1].e, toks[a].s);
         if (/^\.?[  ]+$/.test(g) && TITLES.has(norm(toks[a - 1].t)) && (g.indexOf('.') < 0 || toks[a - 1].t.length <= 4)) hasTitle = true; // título por extenso seguido de ponto é fim de frase
-        if (/^ª?\.?[  ]+$/.test(g) && /^(Dr|Eng|Sr|Arq|Prof|Exm|D)$/.test(toks[a - 1].t)) hasTitle = true;
+        if (/^[ºª]?\.?[ºª]?[ \u00a0]+$/.test(g) && /^(Dr|Dra|Eng|Sr|Sra|Arq|Prof|Exm|Exmo|Exma|D|Ex)$/.test(toks[a - 1].t)) hasTitle = true;
       }
+      // função processual em minúsculas imediatamente antes ("o réu Carrapiço")
+      if (a > 0 && /^[  ]+$/.test(text.slice(toks[a - 1].e, toks[a].s)) && PARTY.has(norm(toks[a - 1].t))) hasTitle = true;
       // retira títulos, funções processuais e palavras de início de frase
       while (a <= b) {
         var n = norm(toks[a].t);
         if (TITLES.has(n)) { hasTitle = true; a++; continue; }
+        if (PARTY.has(n) && a < b) { hasTitle = true; a++; continue; }
         if (ROLES.has(n) || LEAD_STOP.has(n) || CONN.has(n)) { a++; continue; }
         if (isInitial(a) && n === 'd' && a + 1 <= b) { hasTitle = true; a++; continue; }
         break;
@@ -409,9 +456,30 @@
       if (!content.length) return;
       var startsInitial = isInitial(a);
       var firstC = content[0];
+      var isLex = function (c) { return FIRST.has(c) || SURN.has(c); };
+      var nameLike = function (c) { return isLex(c) || !COMMON.has(c); };
+      // palavra corrente no início ("Afirma Maria Ferreira"): começa no nome próprio seguinte
+      if (!startsInitial && content.length >= 3 && !isLex(firstC) && FIRST.has(content[1]) && !CONN.has(norm(toks[a].t))) { evaluateRun(a + 1, b); return; }
+      // contexto que identifica uma pessoa: antes ("Nome:", "contra", "filho de") ou depois (", solteiro", ", residente", ", NIF")
+      var ctxB = norm(text.slice(Math.max(0, toks[a].s - 45), toks[a].s));
+      var ctxA = norm(text.slice(toks[b].e, toks[b].e + 50));
+      var strong = RE_CTX_BEFORE.test(ctxB) || RE_CTX_AFTER.test(ctxA);
+      var allCaps = isUpperTok(text.slice(toks[a].s, toks[b].e).replace(/[^A-Za-zÀ-ÿ]/g, ''));
+      var verify = false;
       var isPerson = false;
       if (!startsInitial && FIRST.has(firstC) && !NOSTART.has(firstC) && content.length >= 2) isPerson = true;
       else if (hasTitle) isPerson = true;
+      else if (strong && content.every(nameLike) && (content.length >= 2 || (content[0].length >= 3 && !COMMON.has(content[0])))) isPerson = true;
+      else if (!startsInitial && content.length >= 2 && content.every(nameLike) && content.some(isLex)) isPerson = true;
+      else if (!startsInitial && !allCaps && content.length >= 2 && content.every(nameLike)) { isPerson = true; verify = true; }
+      else if (!startsInitial && content.length === 1 && FIRST.has(firstC) && !NOSTART.has(firstC) && !COMMON.has(firstC) && a === b) {
+        // nome próprio isolado a meio da frase ("o João", "com a Dalila"), salvo em topónimos ("São Paulo")
+        var prevT = a > 0 ? norm(toks[a - 1].t) : '';
+        var before = text.slice(0, toks[a].s).replace(/[  ]+$/, '');
+        var sentenceStart = !before || /[.!?:;\n\u000b]$/.test(before);
+        if (!/^(sao|santa|santo|nossa|senhora|rua|avenida|praca|largo|travessa|beco|bairro|quinta|escola|colegio|hospital|edificio|torre|vila|ponte|porto|monte|serra)$/.test(prevT) &&
+            (!sentenceStart || /^(o|a|do|da|ao|a|pelo|pela|com|e)$/.test(prevT))) isPerson = true;
+      }
       else if (!startsInitial && content.length >= 2 && content.every(function (c) { return FIRST.has(c) || SURN.has(c); }) && content.some(function (c) { return SURN.has(c); }) && (FIRST.has(firstC) || SURN.has(firstC))) isPerson = true;
       else if (startsInitial && toks[a].t !== 'S' && SURN.has(content[content.length - 1])) isPerson = true;
       if (!isPerson) {
@@ -433,7 +501,7 @@
       var surface = text.slice(s, e);
       if (PLACES.has(norm(surface))) return;
       if (content.length === 1 && content[0].length < 3) return;
-      out.push({ type: 'PESSOA', start: s, end: e, text: surface, content: content, hasTitle: hasTitle });
+      out.push({ type: 'PESSOA', start: s, end: e, text: surface, content: content, hasTitle: hasTitle, verify: verify });
     }
   }
 
@@ -530,12 +598,34 @@
         entities.push(en);
       }
       en.count++;
+      (en.mentions = en.mentions || []).push({ verify: !!m.verify });
       en.firstOrder = Math.min(en.firstOrder, m.order);
       en.variants.set(m.text, (en.variants.get(m.text) || 0) + 1);
       var pre = m.prefix || '';
       en.units.set(pre + m.text, { prefix: pre, text: m.text });
     }
 
+    // propagação: cada nome próprio ou apelido de uma pessoa identificada é procurado isoladamente
+    // em todo o documento ("o Réu Carrapiço", "a Dalila"), para que nenhuma menção fique por substituir
+    var tokenOwner = new Map();
+    entities.forEach(function (en) {
+      if (en.type !== 'PESSOA') return;
+      if (en.mentions && en.mentions.every(function (m) { return m.verify; })) en.verify = true;
+      Array.from(en.variants.keys()).forEach(function (v) {
+        (v.match(RE_TOK) || []).forEach(function (t) {
+          var n = norm(t);
+          if (t.length < 3 || CONN.has(n) || BLOCK.has(n) || MONTHS.has(n) || TITLES.has(n) || ROLES.has(n) || PARTY.has(n) || NOSTART.has(n)) return;
+          if (COMMON.has(n) && !FIRST.has(n) && !SURN.has(n)) return;
+          if (!new RegExp('^[' + UC + ']').test(t)) return;
+          if (!tokenOwner.has(n)) tokenOwner.set(n, en);
+          var owner = tokenOwner.get(n);
+          var cap = t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+          [cap, t.toUpperCase()].forEach(function (form) {
+            if (!owner.units.has(form)) owner.units.set(form, { prefix: '', text: form, token: true });
+          });
+        });
+      });
+    });
     entities.forEach(function (en) { en.canonical = canonicalOf(en).replace(/\s+/g, ' '); });
     entities.sort(function (a, b) {
       var ta = TYPE_ORDER.indexOf(a.type), tb = TYPE_ORDER.indexOf(b.type);

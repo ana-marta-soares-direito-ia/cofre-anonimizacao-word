@@ -75,3 +75,5 @@ fieldset{border:0;padding:0;margin:0 0 6px}
 .mark a{color:inherit}
 @media (max-width:900px){.layout{flex-direction:column}aside{width:auto;border-left:0;border-top:1px solid var(--line)}}
 [hidden]{display:none!important}
+
+.chip.verify{background:#f3ead8;color:#6b4e16;border:1px solid #d9c49a;margin-left:4px}

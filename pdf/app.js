@@ -13,7 +13,7 @@ const VIEW_SCALE_MAX = 1.6;
 const EXPORT_SCALE = 2.5;
 
 const st = {
-  licensed: false, pdf: null, name: '', pages: [], lines: [], entities: [], manual: {}, flashT: 0
+  licensed: false, seen: new Set(), pdf: null, name: '', pages: [], lines: [], entities: [], manual: {}, flashT: 0
 };
 
 /* ------------------------------------------------------------- licença */
@@ -79,7 +79,7 @@ async function openFile(file) {
     const msg = /password/i.test(e && e.name || '') ? 'Este PDF está protegido por palavra-passe. Retire a protecção antes de o anonimizar.' : 'Não foi possível abrir este PDF.';
     alert(msg); return;
   }
-  st.pages = []; st.lines = []; st.entities = []; st.manual = {};
+  st.pages = []; st.lines = []; st.entities = []; st.manual = {}; st.seen = new Set();
   $('empty').hidden = true; $('pages').hidden = false; $('pages').innerHTML = '';
   await extract();
   await renderPages();
@@ -292,7 +292,7 @@ function renderList() {
     wrap.appendChild(head);
     for (const en of g) {
       const row = document.createElement('div'); row.className = 'item' + (en.selected ? '' : ' off');
-      row.innerHTML = `<input type="checkbox" ${en.selected ? 'checked' : ''}><div class="txt"><div class="v">${esc(en.canonical)}</div><span class="chip">${esc(en.label)}</span><span class="times">${plural(en.occ, 'ocorrência', 'ocorrências')}</span></div><button class="loc">Ver</button>`;
+      row.innerHTML = `<input type="checkbox" ${en.selected ? 'checked' : ''}><div class="txt"><div class="v">${esc(en.canonical)}</div><span class="chip">${esc(en.label)}</span>${en.verify ? '<span class="chip verify" title="Identificado pela forma do texto; confirme se é um nome de pessoa">confirmar</span>' : ''}<span class="times">${plural(en.occ, 'ocorrência', 'ocorrências')}</span></div><button class="loc">Ver</button>`;
       row.querySelector('input').addEventListener('change', (ev) => { en.selected = ev.target.checked; row.classList.toggle('off', !en.selected); gc.checked = g.every((e) => e.selected); drawBoxes(); });
       row.querySelector('.loc').addEventListener('click', () => locate(en));
       wrap.appendChild(row);
@@ -369,8 +369,37 @@ function replacedLines(p) {
 }
 
 /* --------------------------------------------------------------- saídas */
+/* Verificação final: volta a analisar o texto já substituído; o que ainda for identificado como dado pessoal
+   (e não tiver sido desmarcado pelo utilizador) é acrescentado à lista antes de gerar o ficheiro. */
+const LABELS = new Set(Object.values(E.TYPES).map((t) => t.label.toLowerCase()));
+function residualCheck() {
+  const off = new Set();
+  for (const en of st.entities) if (!en.selected) for (const v of en.variants.keys()) off.add(E.norm(v).replace(/\s+/g, ' ').trim());
+  const texts = [];
+  for (const p of st.pages) for (const seg of replacedLines(p)) texts.push(seg.text);
+  const res = E.analyze(texts, {});
+  const found = [];
+  for (const en of res.entities) {
+    for (const v of en.variants.keys()) {
+      const n = E.norm(v).replace(/\s+/g, ' ').trim();
+      if (!n || /x{5}|\[[a-z_]+_\d+\]/i.test(v) || off.has(n) || LABELS.has(n) || st.seen.has(n)) continue;
+      if ([...off].some((o) => o.includes(n))) continue;
+      found.push({ v, type: en.type }); st.seen.add(n);
+    }
+  }
+  return found;
+}
+
 async function exportPdf() {
   const btn = $('btnPdf'); btn.disabled = true;
+  const rest = residualCheck();
+  if (rest.length) {
+    for (const r of rest) E.addManual(st.entities, r.v, r.type);
+    computeBoxes(); renderList(); drawBoxes(); updateButtons();
+    status('outStatus', `A verificação final encontrou ${plural(rest.length, 'dado que ainda ficaria visível', 'dados que ainda ficariam visíveis')} (${rest.slice(0, 6).map((r) => r.v).join('; ')}${rest.length > 6 ? '…' : ''}). Foram acrescentados à lista. Reveja e seleccione de novo Descarregar.`, 'err');
+    btn.disabled = false;
+    return;
+  }
   try {
     const out = await PDFLib.PDFDocument.create();
     out.setProducer('Cofre PDF | Ana Marta Soares'); out.setCreator('Cofre PDF');
@@ -428,6 +457,13 @@ async function exportPdf() {
   finally { btn.disabled = false; }
 }
 function exportText() {
+  const rest = residualCheck();
+  if (rest.length) {
+    for (const r of rest) E.addManual(st.entities, r.v, r.type);
+    computeBoxes(); renderList(); drawBoxes(); updateButtons();
+    status('outStatus', `A verificação final encontrou ${plural(rest.length, 'dado por substituir', 'dados por substituir')} (${rest.slice(0, 6).map((r) => r.v).join('; ')}${rest.length > 6 ? '…' : ''}). Foram acrescentados à lista. Reveja e seleccione de novo.`, 'err');
+    return;
+  }
   const plan = E.buildPlan(st.entities, { style: mode() === 'label' ? 'label' : 'x' });
   const paras = [{ text: baseName() + ' (texto pseudonimizado)', bold: true, size: 14, after: 200 }];
   for (const p of st.pages) {

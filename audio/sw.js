@@ -1,6 +1,6 @@
 // Cofre Transcrição: activa o isolamento de origem (necessário para usar vários núcleos do processador)
 // e guarda os ficheiros da aplicação para funcionar sem ligação. Não guarda áudio nem transcrições.
-const CACHE = 'cofre-audio-v1';
+const CACHE = 'cofre-audio-v2';
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch', (e) => {
