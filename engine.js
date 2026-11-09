@@ -142,12 +142,12 @@
   var RE_CC = /(?<![A-Za-z0-9])(\d{8}[ ]?\d[ ]?[A-Z0-9]{2}\d)(?![A-Za-z0-9])/g;
   var RE_IDCTX = new RegExp('(?:bilhete de identidade|cart[ãa]o de cidad[ãa]o|identifica[çc][ãa]o civil|documento de identifica[çc][ãa]o|(?<![' + LET + '])B\\.?\\s?I\\.?|(?<![' + LET + '])C\\.\\s?C\\.|(?<![' + LET + '])CC)\\s*(?:n\\.?\\s*[º°o]\\.?|n[º°]|n[úu]mero)?\\s*[:.]?\\s*(\\d{6,9}(?:[ ]?\\d(?:[ ]?[A-Z0-9]{2}\\d)?)?)(?![A-Za-z0-9])', 'gi');
   var RE_PASS = /(?:passaporte|t[íi]tulo de resid[êe]ncia|autoriza[çc][ãa]o de resid[êe]ncia|cart[ãa]o de resid[êe]ncia|carta de condu[çc][ãa]o|licen[çc]a de condu[çc][ãa]o)\s*(?:n\.?\s*[º°o]\.?|n[º°]|n[úu]mero)?\s*[:.]?\s*([A-Z]{1,3}[\-\s]?\d{5,10}(?:[\-\s]?\d)?|\d{5,10}|(?=[A-Z]*\d)[A-Z0-9]{6,12})(?![A-Za-z0-9])/gi;
-  var RE_CED1 = /c[ée]dula profissional\s*(?:n\.?\s*[º°o]\.?|n[º°]|n[úu]mero)?\s*[:.]?\s*(\d{2,6}\s?[A-Za-z]?(?:-[A-Za-z])?)(?![A-Za-z0-9])/gi;
+  var RE_CED1 = /c[ée]dula(?:\s+profissional)?\s*(?:n\.?\s*[º°o]\.?|n[º°]|n[úu]mero)?\s*[:.]?\s*(\d{2,6}\s?[A-Za-z]?(?:-[A-Za-z])?)(?![A-Za-z0-9])/gi;
   var RE_CED2 = /(?<![A-Za-z])C\.?\s?P\.?\s*(?:n\.?\s*[º°o]\.?|n[º°])\s*[:.]?\s*(\d{2,6}\s?[A-Za-z]?(?:-[A-Za-z])?)(?![A-Za-z0-9])/g;
   var RE_MATR = /(?<![A-Za-z0-9])(?:[A-Z]{2}-\d{2}-\d{2}|\d{2}-[A-Z]{2}-\d{2}|\d{2}-\d{2}-[A-Z]{2}|[A-Z]{2}-\d{2}-[A-Z]{2})(?![A-Za-z0-9])/g;
   var RE_PROC1 = /(?<![\dA-Za-z\/])(\d{1,7}\/\d{2}\.\d{1,2}[A-Z]{1,5}[A-Z0-9]{0,6}(?:[.\-][A-Z0-9]+)*)/g;
   var RE_PROC2 = /(?:processo|proc\.|NUIPC|inqu[ée]rito)\s*(?:n\.?\s*[º°o]\.?|n[º°]|n[úu]mero)?\s*[:.]?\s*(\d[\dA-Za-z\/.\-]*[\dA-Za-z])/gi;
-  var RE_DNASC = /(?:nascid[oa]s?\s+(?:em|a|no dia|aos)|data de nascimento)\s*[:,]?\s*(\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{2,4}|\d{1,2}(?:\.?º)?\s+de\s+[A-Za-zçÇ]+\s+de\s+\d{4})/gi;
+  var RE_DNASC = /(?:nascid[oa]s?\s+(?:em|a|no dia|aos)|nasceu\s+(?:em|a|no dia|aos)|data de nascimento)\s*[:,]?\s*(\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{2,4}|\d{1,2}(?:\.?º)?\s+de\s+[A-Za-zçÇ]+\s+de\s+\d{4})/gi;
   var RE_IMOVEL = /(?:artigo matricial|art\.?\s*matricial|matriz predial[^.;]{0,80}?sob o artigo|inscrit[oa]s?\s+na\s+(?:respe(?:c)?tiva\s+)?matriz[^.;]{0,80}?sob o artigo|descrit[oa]s?\s+na\s+Conservat[óo]ria[^;]{0,140}?sob o n\.?\s*[º°o]\.?|sob a ficha n\.?\s*[º°o]\.?)\s*(?:n\.?\s*[º°o]\.?)?\s*([A-Z]?-?\d[\dA-Z\/\-]*)/gi;
   var RE_POSTAL = new RegExp('(?<!\\d)(\\d{4}-\\d{3})(?!\\d)((?:[ ]+(?:[' + UC + '][' + LET + '\'’\\-]*|d[aeo]s?|e))*)', 'g');
 
@@ -570,7 +570,22 @@
     var single = persons.filter(function (m) { return m.content.length === 1; });
     // os nomes mais completos primeiro, para que as formas abreviadas se lhes associem
     multi.sort(function (x, y) { return y.content.length - x.content.length || x.order - y.order; });
+    // forma abreviada de uma sociedade já identificada ("Construções Almeida" para "Construções Almeida & Filhos, Lda."):
+    // associa-se à pessoa colectiva, em vez de criar uma pessoa singular
+    function entidadeDe(m) {
+      var t = norm(m.text);
+      if (t.split(/\s+/).length < 2) return null;
+      var c = entities.filter(function (en) {
+        return en.type === 'ENTIDADE' && Array.from(en.variants.keys()).some(function (v) {
+          var nv = norm(v);
+          return nv.indexOf(t + ' ') === 0 || nv.indexOf(t + ',') === 0;
+        });
+      });
+      return c.length === 1 ? c[0] : null;
+    }
     multi.forEach(function (m) {
+      var ent = entidadeDe(m);
+      if (ent) { addMention(ent.key, 'ENTIDADE', m); return; }
       var key = 'PESSOA|' + m.content[0] + '|' + m.content[m.content.length - 1];
       if (!byKey.has(key)) {
         var cands = entities.filter(function (en) {
